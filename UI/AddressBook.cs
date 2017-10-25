@@ -26,5 +26,12 @@ namespace AddressBook
         {
 
         }
+
+        private void addContactToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Program.OpenSecondFormOnClose = true;
+
+            Close();
+        }
     }
 }
