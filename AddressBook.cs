@@ -10,11 +10,21 @@ using System.Windows.Forms;
 
 namespace AddressBook
 {
-    public partial class Form1 : Form
+    public partial class AddressBook : Form
     {
-        public Form1()
+        public AddressBook()
         {
             InitializeComponent();
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
