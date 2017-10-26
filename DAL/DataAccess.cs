@@ -18,7 +18,7 @@ namespace AddressBook.DAL
             con = new SqlConnection(connectionString);
         }
 
-        public DataSet ExecuteSelectCommand(string cmdText, CommandType cmdType)
+        public DataSet ExecuteSelectCommand(string cmdText, CommandType cmdType, SqlParameter[] param)
         {
             var dataSet = new DataSet();
             var dataTable = new DataTable();
@@ -27,7 +27,7 @@ namespace AddressBook.DAL
 
             cmd.CommandType = cmdType;
             cmd.CommandText = cmdText;
-            //cmd.Parameters.AddRange(param);
+            cmd.Parameters.AddRange(param);
 
             try
             {

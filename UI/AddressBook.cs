@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using AddressBook.DAL;
 
 namespace AddressBook
 {
@@ -15,6 +16,18 @@ namespace AddressBook
         public AddressBook()
         {
             InitializeComponent();
+
+            LoadAddressBook();
+        }
+
+        private void LoadAddressBook()
+        {
+            var dataAccess = new DataAccess();
+            var cmdText = "select Name from Contact;";
+
+            var orders = dataAccess.ExecuteSelectCommand(cmdText, CommandType.Text, null);
+
+            AddressDataGridView.DataSource = orders.Tables[0];
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
