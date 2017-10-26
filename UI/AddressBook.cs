@@ -111,9 +111,12 @@ namespace AddressBook
         private void SearchBtn_Click(object sender, EventArgs e)
         {
             var dataAccess = new DataAccess();
-            var searchName = SearchName;
-            var searchCity = SearchCity;
-            var searchContact = SearchContactType;
+            var searchName = "";
+            if (SearchName.Text != "") searchName = $"%{SearchName.Text}%";
+            var searchCity = SearchCity.Text;
+            var searchContact = "";
+            if (SearchContactType.SelectedItem != null) searchContact = SearchContactType.SelectedItem.ToString();
+            
 
             SqlParameter[] parameters = {
                 new SqlParameter("@Name", searchName),
@@ -122,8 +125,12 @@ namespace AddressBook
             };
 
 
-            var cmdText = $"select Id, Name from Contact" +
-                          $"where Name = @{searchName};";
+            var cmdText = "select c.Id, c.Name from Contact c " +
+                          "inner join Contact_Address ca on ca.ContactId = c.Id " +
+                          "inner join Address a on a.Id = ca.AddressId " +
+                          "where c.Name like @Name " +
+                          "or a.City like @City " +
+                          "or c.ContactType like @ContactType;";
 
             var contacts = dataAccess.ExecuteSelectCommand(cmdText, CommandType.Text, parameters);
 
