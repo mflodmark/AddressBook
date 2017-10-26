@@ -55,8 +55,9 @@
             this.AddressDataGridView.Location = new System.Drawing.Point(114, 107);
             this.AddressDataGridView.Name = "AddressDataGridView";
             this.AddressDataGridView.RowTemplate.Height = 28;
-            this.AddressDataGridView.Size = new System.Drawing.Size(686, 204);
+            this.AddressDataGridView.Size = new System.Drawing.Size(686, 302);
             this.AddressDataGridView.TabIndex = 0;
+            this.AddressDataGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.EditAddressBook);
             // 
             // DeleteBtn
             // 
@@ -64,7 +65,7 @@
             this.DeleteBtn.Location = new System.Drawing.Point(838, 266);
             this.DeleteBtn.Name = "DeleteBtn";
             this.DeleteBtn.Size = new System.Drawing.Size(119, 43);
-            this.DeleteBtn.TabIndex = 1;
+            this.DeleteBtn.TabIndex = 22;
             this.DeleteBtn.Text = "Delete row";
             this.DeleteBtn.UseVisualStyleBackColor = false;
             this.DeleteBtn.Click += new System.EventHandler(this.DeleteBtn_Click);
@@ -126,7 +127,7 @@
             this.SearchBtn.Location = new System.Drawing.Point(691, 71);
             this.SearchBtn.Name = "SearchBtn";
             this.SearchBtn.Size = new System.Drawing.Size(109, 30);
-            this.SearchBtn.TabIndex = 6;
+            this.SearchBtn.TabIndex = 20;
             this.SearchBtn.Text = "Search";
             this.SearchBtn.UseVisualStyleBackColor = false;
             // 

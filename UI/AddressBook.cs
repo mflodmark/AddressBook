@@ -36,11 +36,6 @@ namespace AddressBook
             Application.Exit();
         }
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void addContactToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Program.OpenSecondFormOnClose = true;
@@ -74,6 +69,25 @@ namespace AddressBook
                     }
                 }
             }
+        }
+
+        private void EditAddressBook(object sender, DataGridViewCellEventArgs e)
+        {
+            var newValue = AddressDataGridView[e.ColumnIndex, e.RowIndex].Value;
+            var columnName = AddressDataGridView.Columns[e.ColumnIndex].HeaderText;
+            var id = AddressDataGridView[0, e.RowIndex].Value;
+
+            SqlParameter[] parameters = {
+                new SqlParameter("@Id", id),
+                new SqlParameter("@" + columnName, newValue)
+            };
+
+            var command = $"update Orders set {columnName} = @{columnName} where Id = @Id";
+
+            var dataAccess = new DataAccess();
+            var result = dataAccess.ExecuteNonQuery(command, CommandType.Text, parameters);
+
+            ResultLabel.Text = result ? "Update worked as planned!" : "Doh! Update didn't work...";
         }
     }
 }
