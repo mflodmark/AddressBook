@@ -27,7 +27,7 @@ namespace AddressBook.DAL
 
             cmd.CommandType = cmdType;
             cmd.CommandText = cmdText;
-            //cmd.Parameters.AddRange(param);
+            cmd.Parameters.AddRange(param);
 
             try
             {

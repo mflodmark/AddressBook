@@ -34,13 +34,13 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addContactToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.SearchName = new System.Windows.Forms.TextBox();
+            this.SearchCity = new System.Windows.Forms.TextBox();
             this.SearchBtn = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.SearchContact = new System.Windows.Forms.ComboBox();
+            this.SearchContactType = new System.Windows.Forms.ComboBox();
             this.ResultLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.AddressDataGridView)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -104,21 +104,21 @@
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
-            // textBox1
+            // SearchName
             // 
-            this.textBox1.AccessibleDescription = "";
-            this.textBox1.AccessibleName = "";
-            this.textBox1.Location = new System.Drawing.Point(114, 75);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(202, 26);
-            this.textBox1.TabIndex = 1;
+            this.SearchName.AccessibleDescription = "";
+            this.SearchName.AccessibleName = "";
+            this.SearchName.Location = new System.Drawing.Point(114, 75);
+            this.SearchName.Name = "SearchName";
+            this.SearchName.Size = new System.Drawing.Size(202, 26);
+            this.SearchName.TabIndex = 1;
             // 
-            // textBox2
+            // SearchCity
             // 
-            this.textBox2.Location = new System.Drawing.Point(322, 75);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(191, 26);
-            this.textBox2.TabIndex = 21;
+            this.SearchCity.Location = new System.Drawing.Point(322, 75);
+            this.SearchCity.Name = "SearchCity";
+            this.SearchCity.Size = new System.Drawing.Size(191, 26);
+            this.SearchCity.TabIndex = 21;
             // 
             // SearchBtn
             // 
@@ -158,13 +158,13 @@
             this.label3.TabIndex = 9;
             this.label3.Text = "Typ av kontakt";
             // 
-            // SearchContact
+            // SearchContactType
             // 
-            this.SearchContact.FormattingEnabled = true;
-            this.SearchContact.Location = new System.Drawing.Point(519, 75);
-            this.SearchContact.Name = "SearchContact";
-            this.SearchContact.Size = new System.Drawing.Size(166, 28);
-            this.SearchContact.TabIndex = 10;
+            this.SearchContactType.FormattingEnabled = true;
+            this.SearchContactType.Location = new System.Drawing.Point(519, 75);
+            this.SearchContactType.Name = "SearchContactType";
+            this.SearchContactType.Size = new System.Drawing.Size(166, 28);
+            this.SearchContactType.TabIndex = 10;
             // 
             // ResultLabel
             // 
@@ -182,13 +182,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1022, 535);
             this.Controls.Add(this.ResultLabel);
-            this.Controls.Add(this.SearchContact);
+            this.Controls.Add(this.SearchContactType);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.SearchBtn);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.SearchCity);
+            this.Controls.Add(this.SearchName);
             this.Controls.Add(this.DeleteBtn);
             this.Controls.Add(this.AddressDataGridView);
             this.Controls.Add(this.menuStrip1);
@@ -211,13 +211,13 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addContactToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox SearchName;
+        private System.Windows.Forms.TextBox SearchCity;
         private System.Windows.Forms.Button SearchBtn;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox SearchContact;
+        private System.Windows.Forms.ComboBox SearchContactType;
         private System.Windows.Forms.Label ResultLabel;
     }
 }

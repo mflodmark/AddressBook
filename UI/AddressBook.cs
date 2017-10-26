@@ -25,9 +25,9 @@ namespace AddressBook
 
         private void AddColorToSearchBox()
         {
-            SearchContact.Items.Add("Personlig");
-            SearchContact.Items.Add("Jobb");
-            SearchContact.Items.Add("Övrig");
+            SearchContactType.Items.Add("Personlig");
+            SearchContactType.Items.Add("Jobb");
+            SearchContactType.Items.Add("Övrig");
         }
 
         private void LoadAddressBook()
@@ -111,10 +111,21 @@ namespace AddressBook
         private void SearchBtn_Click(object sender, EventArgs e)
         {
             var dataAccess = new DataAccess();
-            //var name = 
-            var cmdText = "select Id, Name from Contact;";
+            var searchName = SearchName;
+            var searchCity = SearchCity;
+            var searchContact = SearchContactType;
 
-            var contacts = dataAccess.ExecuteSelectCommand(cmdText, CommandType.Text, null);
+            SqlParameter[] parameters = {
+                new SqlParameter("@Name", searchName),
+                new SqlParameter("@City", searchCity),
+                new SqlParameter("@ContactType", searchContact)
+            };
+
+
+            var cmdText = $"select Id, Name from Contact" +
+                          $"where Name = @{searchName};";
+
+            var contacts = dataAccess.ExecuteSelectCommand(cmdText, CommandType.Text, parameters);
 
             AddressDataGridView.DataSource = contacts.Tables[0];
         }
