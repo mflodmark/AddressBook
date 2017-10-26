@@ -1,5 +1,8 @@
 --create database AddressBook
 
+USE AddressBook
+GO
+
 create table Contact(
 Id int identity primary key,
 Name nvarchar(50) not null,
