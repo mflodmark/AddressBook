@@ -50,7 +50,7 @@
             this.AddressDataGridView.AllowUserToAddRows = false;
             this.AddressDataGridView.AllowUserToDeleteRows = false;
             this.AddressDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.AddressDataGridView.Location = new System.Drawing.Point(114, 105);
+            this.AddressDataGridView.Location = new System.Drawing.Point(114, 107);
             this.AddressDataGridView.Name = "AddressDataGridView";
             this.AddressDataGridView.RowTemplate.Height = 28;
             this.AddressDataGridView.Size = new System.Drawing.Size(686, 204);
@@ -58,12 +58,13 @@
             // 
             // DeleteBtn
             // 
-            this.DeleteBtn.Location = new System.Drawing.Point(848, 105);
+            this.DeleteBtn.BackColor = System.Drawing.Color.Red;
+            this.DeleteBtn.Location = new System.Drawing.Point(838, 266);
             this.DeleteBtn.Name = "DeleteBtn";
-            this.DeleteBtn.Size = new System.Drawing.Size(132, 63);
+            this.DeleteBtn.Size = new System.Drawing.Size(119, 43);
             this.DeleteBtn.TabIndex = 1;
             this.DeleteBtn.Text = "Delete row";
-            this.DeleteBtn.UseVisualStyleBackColor = true;
+            this.DeleteBtn.UseVisualStyleBackColor = false;
             // 
             // menuStrip1
             // 
@@ -118,12 +119,13 @@
             // 
             // SearchBtn
             // 
-            this.SearchBtn.Location = new System.Drawing.Point(693, 75);
+            this.SearchBtn.BackColor = System.Drawing.Color.Cyan;
+            this.SearchBtn.Location = new System.Drawing.Point(691, 71);
             this.SearchBtn.Name = "SearchBtn";
-            this.SearchBtn.Size = new System.Drawing.Size(107, 24);
+            this.SearchBtn.Size = new System.Drawing.Size(109, 30);
             this.SearchBtn.TabIndex = 6;
             this.SearchBtn.Text = "Search";
-            this.SearchBtn.UseVisualStyleBackColor = true;
+            this.SearchBtn.UseVisualStyleBackColor = false;
             // 
             // label1
             // 
@@ -157,7 +159,7 @@
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(519, 73);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(145, 28);
+            this.comboBox1.Size = new System.Drawing.Size(166, 28);
             this.comboBox1.TabIndex = 10;
             // 
             // AddressBook

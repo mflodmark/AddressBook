@@ -87,7 +87,7 @@
             this.NewLastNameTxtBox.Location = new System.Drawing.Point(246, 88);
             this.NewLastNameTxtBox.Name = "NewLastNameTxtBox";
             this.NewLastNameTxtBox.Size = new System.Drawing.Size(156, 26);
-            this.NewLastNameTxtBox.TabIndex = 3;
+            this.NewLastNameTxtBox.TabIndex = 2;
             // 
             // dataGridView1
             // 
@@ -118,21 +118,23 @@
             // 
             // CreateContactBtn
             // 
-            this.CreateContactBtn.Location = new System.Drawing.Point(386, 458);
+            this.CreateContactBtn.BackColor = System.Drawing.Color.Green;
+            this.CreateContactBtn.Location = new System.Drawing.Point(838, 503);
             this.CreateContactBtn.Name = "CreateContactBtn";
-            this.CreateContactBtn.Size = new System.Drawing.Size(247, 55);
+            this.CreateContactBtn.Size = new System.Drawing.Size(119, 66);
             this.CreateContactBtn.TabIndex = 7;
             this.CreateContactBtn.Text = "Create contact!";
-            this.CreateContactBtn.UseVisualStyleBackColor = true;
+            this.CreateContactBtn.UseVisualStyleBackColor = false;
             // 
             // UndoBtn
             // 
-            this.UndoBtn.Location = new System.Drawing.Point(833, 503);
+            this.UndoBtn.BackColor = System.Drawing.Color.Red;
+            this.UndoBtn.Location = new System.Drawing.Point(43, 503);
             this.UndoBtn.Name = "UndoBtn";
             this.UndoBtn.Size = new System.Drawing.Size(124, 66);
             this.UndoBtn.TabIndex = 8;
-            this.UndoBtn.Text = "Undo and go back";
-            this.UndoBtn.UseVisualStyleBackColor = true;
+            this.UndoBtn.Text = "Undo and go back...";
+            this.UndoBtn.UseVisualStyleBackColor = false;
             // 
             // label4
             // 
@@ -148,21 +150,21 @@
             this.NewZipTextBox.Location = new System.Drawing.Point(43, 243);
             this.NewZipTextBox.Name = "NewZipTextBox";
             this.NewZipTextBox.Size = new System.Drawing.Size(210, 26);
-            this.NewZipTextBox.TabIndex = 11;
+            this.NewZipTextBox.TabIndex = 6;
             // 
             // NewTelNrTextBox
             // 
             this.NewTelNrTextBox.Location = new System.Drawing.Point(360, 243);
             this.NewTelNrTextBox.Name = "NewTelNrTextBox";
             this.NewTelNrTextBox.Size = new System.Drawing.Size(214, 26);
-            this.NewTelNrTextBox.TabIndex = 12;
+            this.NewTelNrTextBox.TabIndex = 9;
             // 
             // NewEmailTextBox
             // 
             this.NewEmailTextBox.Location = new System.Drawing.Point(680, 243);
             this.NewEmailTextBox.Name = "NewEmailTextBox";
             this.NewEmailTextBox.Size = new System.Drawing.Size(195, 26);
-            this.NewEmailTextBox.TabIndex = 13;
+            this.NewEmailTextBox.TabIndex = 10;
             // 
             // label5
             // 
@@ -176,7 +178,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(676, 204);
+            this.label6.Location = new System.Drawing.Point(676, 211);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(48, 20);
             this.label6.TabIndex = 15;
@@ -224,35 +226,35 @@
             this.NewTypeComboBox.Location = new System.Drawing.Point(537, 51);
             this.NewTypeComboBox.Name = "NewTypeComboBox";
             this.NewTypeComboBox.Size = new System.Drawing.Size(171, 28);
-            this.NewTypeComboBox.TabIndex = 20;
+            this.NewTypeComboBox.TabIndex = 3;
             // 
             // NewCityTextBox
             // 
             this.NewCityTextBox.Location = new System.Drawing.Point(43, 211);
             this.NewCityTextBox.Name = "NewCityTextBox";
             this.NewCityTextBox.Size = new System.Drawing.Size(210, 26);
-            this.NewCityTextBox.TabIndex = 21;
+            this.NewCityTextBox.TabIndex = 5;
             // 
             // NewStreetTextBox
             // 
             this.NewStreetTextBox.Location = new System.Drawing.Point(43, 179);
             this.NewStreetTextBox.Name = "NewStreetTextBox";
             this.NewStreetTextBox.Size = new System.Drawing.Size(210, 26);
-            this.NewStreetTextBox.TabIndex = 22;
+            this.NewStreetTextBox.TabIndex = 4;
             // 
             // NewDiallingTextBox
             // 
             this.NewDiallingTextBox.Location = new System.Drawing.Point(360, 211);
             this.NewDiallingTextBox.Name = "NewDiallingTextBox";
             this.NewDiallingTextBox.Size = new System.Drawing.Size(214, 26);
-            this.NewDiallingTextBox.TabIndex = 23;
+            this.NewDiallingTextBox.TabIndex = 8;
             // 
             // NewCountryTextBox
             // 
             this.NewCountryTextBox.Location = new System.Drawing.Point(360, 179);
             this.NewCountryTextBox.Name = "NewCountryTextBox";
             this.NewCountryTextBox.Size = new System.Drawing.Size(214, 26);
-            this.NewCountryTextBox.TabIndex = 24;
+            this.NewCountryTextBox.TabIndex = 7;
             // 
             // NewContact
             // 
