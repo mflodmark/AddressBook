@@ -40,7 +40,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.SearchContact = new System.Windows.Forms.ComboBox();
             this.ResultLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.AddressDataGridView)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -52,10 +52,10 @@
             this.AddressDataGridView.AllowUserToDeleteRows = false;
             this.AddressDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.AddressDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.AddressDataGridView.Location = new System.Drawing.Point(114, 107);
+            this.AddressDataGridView.Location = new System.Drawing.Point(114, 109);
             this.AddressDataGridView.Name = "AddressDataGridView";
             this.AddressDataGridView.RowTemplate.Height = 28;
-            this.AddressDataGridView.Size = new System.Drawing.Size(686, 302);
+            this.AddressDataGridView.Size = new System.Drawing.Size(686, 300);
             this.AddressDataGridView.TabIndex = 0;
             this.AddressDataGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.EditAddressBook);
             // 
@@ -93,14 +93,14 @@
             // addContactToolStripMenuItem
             // 
             this.addContactToolStripMenuItem.Name = "addContactToolStripMenuItem";
-            this.addContactToolStripMenuItem.Size = new System.Drawing.Size(210, 30);
+            this.addContactToolStripMenuItem.Size = new System.Drawing.Size(193, 30);
             this.addContactToolStripMenuItem.Text = "Add contact";
             this.addContactToolStripMenuItem.Click += new System.EventHandler(this.addContactToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(210, 30);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(193, 30);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -108,28 +108,28 @@
             // 
             this.textBox1.AccessibleDescription = "";
             this.textBox1.AccessibleName = "";
-            this.textBox1.Location = new System.Drawing.Point(114, 73);
+            this.textBox1.Location = new System.Drawing.Point(114, 75);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(202, 26);
             this.textBox1.TabIndex = 1;
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(322, 73);
+            this.textBox2.Location = new System.Drawing.Point(322, 75);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(191, 26);
-            this.textBox2.TabIndex = 2;
-            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+            this.textBox2.TabIndex = 21;
             // 
             // SearchBtn
             // 
             this.SearchBtn.BackColor = System.Drawing.Color.Cyan;
-            this.SearchBtn.Location = new System.Drawing.Point(691, 71);
+            this.SearchBtn.Location = new System.Drawing.Point(691, 47);
             this.SearchBtn.Name = "SearchBtn";
-            this.SearchBtn.Size = new System.Drawing.Size(109, 30);
+            this.SearchBtn.Size = new System.Drawing.Size(109, 56);
             this.SearchBtn.TabIndex = 20;
             this.SearchBtn.Text = "Search";
             this.SearchBtn.UseVisualStyleBackColor = false;
+            this.SearchBtn.Click += new System.EventHandler(this.SearchBtn_Click);
             // 
             // label1
             // 
@@ -158,18 +158,19 @@
             this.label3.TabIndex = 9;
             this.label3.Text = "Typ av kontakt";
             // 
-            // comboBox1
+            // SearchContact
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(519, 73);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(166, 28);
-            this.comboBox1.TabIndex = 10;
+            this.SearchContact.FormattingEnabled = true;
+            this.SearchContact.Location = new System.Drawing.Point(519, 75);
+            this.SearchContact.Name = "SearchContact";
+            this.SearchContact.Size = new System.Drawing.Size(166, 28);
+            this.SearchContact.TabIndex = 10;
             // 
             // ResultLabel
             // 
             this.ResultLabel.AutoSize = true;
-            this.ResultLabel.Location = new System.Drawing.Point(838, 335);
+            this.ResultLabel.ForeColor = System.Drawing.Color.White;
+            this.ResultLabel.Location = new System.Drawing.Point(114, 453);
             this.ResultLabel.Name = "ResultLabel";
             this.ResultLabel.Size = new System.Drawing.Size(65, 20);
             this.ResultLabel.TabIndex = 11;
@@ -181,7 +182,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1022, 535);
             this.Controls.Add(this.ResultLabel);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.SearchContact);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -216,7 +217,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox SearchContact;
         private System.Windows.Forms.Label ResultLabel;
     }
 }

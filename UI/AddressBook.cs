@@ -18,13 +18,22 @@ namespace AddressBook
         {
             InitializeComponent();
 
+            AddColorToSearchBox();
+
             LoadAddressBook();
+        }
+
+        private void AddColorToSearchBox()
+        {
+            SearchContact.Items.Add("Personlig");
+            SearchContact.Items.Add("Jobb");
+            SearchContact.Items.Add("Övrig");
         }
 
         private void LoadAddressBook()
         {
             var dataAccess = new DataAccess();
-            var cmdText = "select Id,Name from Contact;";
+            var cmdText = "select Id, Name from Contact;";
 
             var contacts = dataAccess.ExecuteSelectCommand(cmdText, CommandType.Text, null);
 
@@ -51,15 +60,14 @@ namespace AddressBook
                 {
                     if (AddressDataGridView.Rows[i].Selected)
                     {
-                        var orderId = AddressDataGridView[0, i].Value;
+                        var id = AddressDataGridView[0, i].Value;
 
                         SqlParameter[] parameters =
                         {
-                            new SqlParameter("@OrderId", orderId)
+                            new SqlParameter("@Id", id)
                         };
 
-                        var command = "delete from [Order Details] where OrderId =@OrderId;" +
-                                      "delete from Orders where OrderId = @OrderId;";
+                        var command = "delete from Contact where Id = @Id;";
                         var dataAccess = new DataAccess();
                         var result = dataAccess.ExecuteNonQuery(command, CommandType.Text, parameters);
 
@@ -82,12 +90,33 @@ namespace AddressBook
                 new SqlParameter("@" + columnName, newValue)
             };
 
-            var command = $"update Orders set {columnName} = @{columnName} where Id = @Id";
+            var command = $"update Contact set {columnName} = @{columnName} where Id = @Id";
 
             var dataAccess = new DataAccess();
             var result = dataAccess.ExecuteNonQuery(command, CommandType.Text, parameters);
 
-            ResultLabel.Text = result ? "Update worked as planned!" : "Doh! Update didn't work...";
+            if (result)
+            {
+                ResultLabel.Text = "Update worked as planned!";
+                ResultLabel.BackColor = Color.Green;
+            }
+            else
+            {
+                ResultLabel.Text = "Doh! Update didn't work...";
+                ResultLabel.BackColor = Color.Red;
+            }
+            
+        }
+
+        private void SearchBtn_Click(object sender, EventArgs e)
+        {
+            var dataAccess = new DataAccess();
+            //var name = 
+            var cmdText = "select Id, Name from Contact;";
+
+            var contacts = dataAccess.ExecuteSelectCommand(cmdText, CommandType.Text, null);
+
+            AddressDataGridView.DataSource = contacts.Tables[0];
         }
     }
 }
