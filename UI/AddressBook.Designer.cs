@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.AddressDataGridView = new System.Windows.Forms.DataGridView();
+            this.ContactDataGridView = new System.Windows.Forms.DataGridView();
             this.DeleteBtn = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -42,22 +42,29 @@
             this.label3 = new System.Windows.Forms.Label();
             this.SearchContactType = new System.Windows.Forms.ComboBox();
             this.ResultLabel = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.AddressDataGridView)).BeginInit();
+            this.ShowAddressGridView = new System.Windows.Forms.DataGridView();
+            this.ShowTelephoneGridView = new System.Windows.Forms.DataGridView();
+            this.ShowEmailGridView = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.ContactDataGridView)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ShowAddressGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ShowTelephoneGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ShowEmailGridView)).BeginInit();
             this.SuspendLayout();
             // 
-            // AddressDataGridView
+            // ContactDataGridView
             // 
-            this.AddressDataGridView.AllowUserToAddRows = false;
-            this.AddressDataGridView.AllowUserToDeleteRows = false;
-            this.AddressDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.AddressDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.AddressDataGridView.Location = new System.Drawing.Point(114, 109);
-            this.AddressDataGridView.Name = "AddressDataGridView";
-            this.AddressDataGridView.RowTemplate.Height = 28;
-            this.AddressDataGridView.Size = new System.Drawing.Size(686, 300);
-            this.AddressDataGridView.TabIndex = 0;
-            this.AddressDataGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.EditAddressBook);
+            this.ContactDataGridView.AllowUserToAddRows = false;
+            this.ContactDataGridView.AllowUserToDeleteRows = false;
+            this.ContactDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.ContactDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ContactDataGridView.Location = new System.Drawing.Point(114, 109);
+            this.ContactDataGridView.Name = "ContactDataGridView";
+            this.ContactDataGridView.RowTemplate.Height = 28;
+            this.ContactDataGridView.Size = new System.Drawing.Size(686, 200);
+            this.ContactDataGridView.TabIndex = 0;
+            this.ContactDataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.AddressDataGridView_CellClick);
+            this.ContactDataGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.EditAddressBook);
             // 
             // DeleteBtn
             // 
@@ -77,7 +84,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1022, 33);
+            this.menuStrip1.Size = new System.Drawing.Size(1272, 33);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -170,17 +177,59 @@
             // 
             this.ResultLabel.AutoSize = true;
             this.ResultLabel.ForeColor = System.Drawing.Color.White;
-            this.ResultLabel.Location = new System.Drawing.Point(114, 453);
+            this.ResultLabel.Location = new System.Drawing.Point(992, 277);
             this.ResultLabel.Name = "ResultLabel";
             this.ResultLabel.Size = new System.Drawing.Size(65, 20);
             this.ResultLabel.TabIndex = 11;
             this.ResultLabel.Text = "-Result-";
             // 
+            // ShowAddressGridView
+            // 
+            this.ShowAddressGridView.AllowUserToAddRows = false;
+            this.ShowAddressGridView.AllowUserToDeleteRows = false;
+            this.ShowAddressGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.ShowAddressGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ShowAddressGridView.Location = new System.Drawing.Point(114, 375);
+            this.ShowAddressGridView.Name = "ShowAddressGridView";
+            this.ShowAddressGridView.RowTemplate.Height = 28;
+            this.ShowAddressGridView.Size = new System.Drawing.Size(456, 210);
+            this.ShowAddressGridView.TabIndex = 23;
+            this.ShowAddressGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.EditAddressBook);
+            // 
+            // ShowTelephoneGridView
+            // 
+            this.ShowTelephoneGridView.AllowUserToAddRows = false;
+            this.ShowTelephoneGridView.AllowUserToDeleteRows = false;
+            this.ShowTelephoneGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.ShowTelephoneGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ShowTelephoneGridView.Location = new System.Drawing.Point(576, 375);
+            this.ShowTelephoneGridView.Name = "ShowTelephoneGridView";
+            this.ShowTelephoneGridView.RowTemplate.Height = 28;
+            this.ShowTelephoneGridView.Size = new System.Drawing.Size(351, 210);
+            this.ShowTelephoneGridView.TabIndex = 24;
+            this.ShowTelephoneGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.EditAddressBook);
+            // 
+            // ShowEmailGridView
+            // 
+            this.ShowEmailGridView.AllowUserToAddRows = false;
+            this.ShowEmailGridView.AllowUserToDeleteRows = false;
+            this.ShowEmailGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.ShowEmailGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ShowEmailGridView.Location = new System.Drawing.Point(933, 375);
+            this.ShowEmailGridView.Name = "ShowEmailGridView";
+            this.ShowEmailGridView.RowTemplate.Height = 28;
+            this.ShowEmailGridView.Size = new System.Drawing.Size(327, 210);
+            this.ShowEmailGridView.TabIndex = 25;
+            this.ShowEmailGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.EditAddressBook);
+            // 
             // AddressBook
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1022, 535);
+            this.ClientSize = new System.Drawing.Size(1272, 597);
+            this.Controls.Add(this.ShowEmailGridView);
+            this.Controls.Add(this.ShowTelephoneGridView);
+            this.Controls.Add(this.ShowAddressGridView);
             this.Controls.Add(this.ResultLabel);
             this.Controls.Add(this.SearchContactType);
             this.Controls.Add(this.label3);
@@ -190,14 +239,17 @@
             this.Controls.Add(this.SearchCity);
             this.Controls.Add(this.SearchName);
             this.Controls.Add(this.DeleteBtn);
-            this.Controls.Add(this.AddressDataGridView);
+            this.Controls.Add(this.ContactDataGridView);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "AddressBook";
             this.Text = "AddressBook";
-            ((System.ComponentModel.ISupportInitialize)(this.AddressDataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ContactDataGridView)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ShowAddressGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ShowTelephoneGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ShowEmailGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -205,7 +257,7 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView AddressDataGridView;
+        private System.Windows.Forms.DataGridView ContactDataGridView;
         private System.Windows.Forms.Button DeleteBtn;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
@@ -219,6 +271,9 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox SearchContactType;
         private System.Windows.Forms.Label ResultLabel;
+        private System.Windows.Forms.DataGridView ShowAddressGridView;
+        private System.Windows.Forms.DataGridView ShowTelephoneGridView;
+        private System.Windows.Forms.DataGridView ShowEmailGridView;
     }
 }
 

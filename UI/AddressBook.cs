@@ -32,12 +32,46 @@ namespace AddressBook
 
         private void LoadAddressBook()
         {
+            var table = LoadData("select Id, Name from Contact;", -1);
+
+            ContactDataGridView.DataSource = table.Tables[0];
+        }
+
+        private void LoadAddressInfo(int id)
+        {
+            var table = LoadData("select ca.ContactId, a.Street, a.City, a.PostalCode from Contact c " +
+                                 "inner join Contact_Address ca on ca.ContactId = c.Id " +
+                                 "inner join Address a on a.Id = ca.ContactId " +
+                                 "where c.Id = @id", id);
+
+            ShowAddressGridView.DataSource = table.Tables[0];
+        }
+
+        private void LoadTelephoneInfo(int id)
+        {
+            var table = LoadData("select Id, Name from Contact;", id);
+
+            ShowTelephoneGridView.DataSource = table.Tables[0];
+        }
+
+        private void LoadEmailInfo(int id)
+        {
+            var table = LoadData("select Id, Name from Contact;",id);
+
+            ShowEmailGridView.DataSource = table.Tables[0];
+        }
+
+        private DataSet LoadData(string command, int id)
+        {
             var dataAccess = new DataAccess();
-            var cmdText = "select Id, Name from Contact;";
+            var cmdText = command;
 
-            var contacts = dataAccess.ExecuteSelectCommand(cmdText, CommandType.Text, null);
+            SqlParameter[] parameters = {
+                new SqlParameter("@Id", id)
+            };
 
-            AddressDataGridView.DataSource = contacts.Tables[0];
+            return dataAccess.ExecuteSelectCommand(cmdText, CommandType.Text, parameters);
+           
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -54,13 +88,13 @@ namespace AddressBook
 
         private void DeleteBtn_Click(object sender, EventArgs e)
         {
-            if (AddressDataGridView.SelectedRows.Count > 0)
+            if (ContactDataGridView.SelectedRows.Count > 0)
             {
-                for (int i = 0; i < AddressDataGridView.Rows.Count; i++)
+                for (int i = 0; i < ContactDataGridView.Rows.Count; i++)
                 {
-                    if (AddressDataGridView.Rows[i].Selected)
+                    if (ContactDataGridView.Rows[i].Selected)
                     {
-                        var id = AddressDataGridView[0, i].Value;
+                        var id = ContactDataGridView[0, i].Value;
 
                         SqlParameter[] parameters =
                         {
@@ -73,7 +107,7 @@ namespace AddressBook
 
                         ResultLabel.Text = result ? "Deleted successfully!" : "Delete didn't work...";
 
-                        if (result) AddressDataGridView.Rows.RemoveAt(i);
+                        if (result) ContactDataGridView.Rows.RemoveAt(i);
                     }
                 }
             }
@@ -81,9 +115,9 @@ namespace AddressBook
 
         private void EditAddressBook(object sender, DataGridViewCellEventArgs e)
         {
-            var newValue = AddressDataGridView[e.ColumnIndex, e.RowIndex].Value;
-            var columnName = AddressDataGridView.Columns[e.ColumnIndex].HeaderText;
-            var id = AddressDataGridView[0, e.RowIndex].Value;
+            var newValue = ContactDataGridView[e.ColumnIndex, e.RowIndex].Value;
+            var columnName = ContactDataGridView.Columns[e.ColumnIndex].HeaderText;
+            var id = ContactDataGridView[0, e.RowIndex].Value;
 
             SqlParameter[] parameters = {
                 new SqlParameter("@Id", id),
@@ -112,9 +146,11 @@ namespace AddressBook
         {
             var dataAccess = new DataAccess();
             var searchName = "";
-            if (SearchName.Text != "") searchName = $"%{SearchName.Text}%";
             var searchCity = SearchCity.Text;
             var searchContact = "";
+
+            if (SearchName.Text != "") searchName = $"%{SearchName.Text}%";
+
             if (SearchContactType.SelectedItem != null) searchContact = SearchContactType.SelectedItem.ToString();
             
 
@@ -134,7 +170,16 @@ namespace AddressBook
 
             var contacts = dataAccess.ExecuteSelectCommand(cmdText, CommandType.Text, parameters);
 
-            AddressDataGridView.DataSource = contacts.Tables[0];
+            ContactDataGridView.DataSource = contacts.Tables[0];
+        }
+
+        private void AddressDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var id = (int)ContactDataGridView[0, e.RowIndex].Value;
+
+            LoadAddressInfo(id);
+            LoadTelephoneInfo(id);
+            LoadEmailInfo(id);
         }
     }
 }
