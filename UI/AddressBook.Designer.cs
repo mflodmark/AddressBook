@@ -41,6 +41,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.ResultLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.AddressDataGridView)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -49,6 +50,7 @@
             // 
             this.AddressDataGridView.AllowUserToAddRows = false;
             this.AddressDataGridView.AllowUserToDeleteRows = false;
+            this.AddressDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.AddressDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.AddressDataGridView.Location = new System.Drawing.Point(114, 107);
             this.AddressDataGridView.Name = "AddressDataGridView";
@@ -65,6 +67,7 @@
             this.DeleteBtn.TabIndex = 1;
             this.DeleteBtn.Text = "Delete row";
             this.DeleteBtn.UseVisualStyleBackColor = false;
+            this.DeleteBtn.Click += new System.EventHandler(this.DeleteBtn_Click);
             // 
             // menuStrip1
             // 
@@ -162,11 +165,21 @@
             this.comboBox1.Size = new System.Drawing.Size(166, 28);
             this.comboBox1.TabIndex = 10;
             // 
+            // ResultLabel
+            // 
+            this.ResultLabel.AutoSize = true;
+            this.ResultLabel.Location = new System.Drawing.Point(838, 335);
+            this.ResultLabel.Name = "ResultLabel";
+            this.ResultLabel.Size = new System.Drawing.Size(65, 20);
+            this.ResultLabel.TabIndex = 11;
+            this.ResultLabel.Text = "-Result-";
+            // 
             // AddressBook
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1022, 535);
+            this.Controls.Add(this.ResultLabel);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -203,6 +216,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label ResultLabel;
     }
 }
 

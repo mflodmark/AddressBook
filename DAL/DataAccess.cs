@@ -27,7 +27,7 @@ namespace AddressBook.DAL
 
             cmd.CommandType = cmdType;
             cmd.CommandText = cmdText;
-            cmd.Parameters.AddRange(param);
+            //cmd.Parameters.AddRange(param);
 
             try
             {
@@ -51,8 +51,34 @@ namespace AddressBook.DAL
             }
 
             return dataSet;
+        }
 
+        public bool ExecuteNonQuery(string cmdText, CommandType cmdType, SqlParameter[] param)
+        {
+            int res;
 
+            var cmd = con.CreateCommand();
+
+            cmd.CommandType = cmdType;
+            cmd.CommandText = cmdText;
+            cmd.Parameters.AddRange(param);
+
+            try
+            {
+                con.Open();
+                res = cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                cmd.Dispose();
+                con.Close();
+            }
+
+            return res >= 1;
         }
     }
 
