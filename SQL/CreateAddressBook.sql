@@ -25,6 +25,7 @@ PostalCode varchar(10) not null
 )
 
 create table Contact_Address (
+Id int identity(1,1) primary key,
 ContactId int not null foreign key references Contact(Id)
 on delete cascade,
 AddressId int not null foreign key references Address(Id)
@@ -104,4 +105,13 @@ values
 
 
 
+select c.Id, c.Name, from Contact c
+inner join Contact_Address ca on ca.ContactId = c.Id
+inner join Address a on a.Id = ca.AddressId
+inner join Email e on e.ContactId = a.Id
+inner join Telephone t on t.ContactId = a.Id
 
+
+select ca.ContactId, a.Street, a.City, a.PostalCode from Contact c
+inner join Contact_Address ca on ca.ContactId = c.Id
+inner join Address a on a.Id = ca.AddressId

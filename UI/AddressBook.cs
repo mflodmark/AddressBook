@@ -39,9 +39,9 @@ namespace AddressBook
 
         private void LoadAddressInfo(int id)
         {
-            var table = LoadData("select ca.ContactId, a.Street, a.City, a.PostalCode from Contact c " +
+            var table = LoadData("select a.Id, a.Street, a.City, a.PostalCode from Contact c " +
                                  "inner join Contact_Address ca on ca.ContactId = c.Id " +
-                                 "inner join Address a on a.Id = ca.ContactId " +
+                                 "inner join Address a on a.Id = ca.AddressId " +
                                  "where c.Id = @id", id);
 
             ShowAddressGridView.DataSource = table.Tables[0];
@@ -49,14 +49,18 @@ namespace AddressBook
 
         private void LoadTelephoneInfo(int id)
         {
-            var table = LoadData("select Id, Name from Contact;", id);
+            var table = LoadData("select t.Id, t.CountryCode, t.DiallingCode, t.TelephoneNumber from Contact c " +
+                                 "inner join Telephone t on c.Id = t.ContactId " +
+                                 "where c.Id = @id", id);
 
             ShowTelephoneGridView.DataSource = table.Tables[0];
         }
 
         private void LoadEmailInfo(int id)
         {
-            var table = LoadData("select Id, Name from Contact;",id);
+            var table = LoadData("select e.Id, e.Email from Contact c " +
+                                 "inner join Email e on c.Id = e.ContactId " +
+                                 "where c.Id = @id", id);
 
             ShowEmailGridView.DataSource = table.Tables[0];
         }
@@ -124,8 +128,15 @@ namespace AddressBook
                 new SqlParameter("@" + columnName, newValue)
             };
 
-            var command = $"update Contact set {columnName} = @{columnName} where Id = @Id";
+            var command = $"update Contact " +
+                          $"set {columnName} = @{columnName} " +
+                          $"where Id = @Id";
 
+            UpdateData(command, parameters);
+        }
+
+        private void UpdateData(string command, SqlParameter[] parameters)
+        {
             var dataAccess = new DataAccess();
             var result = dataAccess.ExecuteNonQuery(command, CommandType.Text, parameters);
 
@@ -139,7 +150,6 @@ namespace AddressBook
                 ResultLabel.Text = "Doh! Update didn't work...";
                 ResultLabel.BackColor = Color.Red;
             }
-            
         }
 
         private void SearchBtn_Click(object sender, EventArgs e)
@@ -153,14 +163,12 @@ namespace AddressBook
 
             if (SearchContactType.SelectedItem != null) searchContact = SearchContactType.SelectedItem.ToString();
             
-
             SqlParameter[] parameters = {
                 new SqlParameter("@Name", searchName),
                 new SqlParameter("@City", searchCity),
                 new SqlParameter("@ContactType", searchContact)
             };
-
-
+            
             var cmdText = "select c.Id, c.Name from Contact c " +
                           "inner join Contact_Address ca on ca.ContactId = c.Id " +
                           "inner join Address a on a.Id = ca.AddressId " +
@@ -171,6 +179,10 @@ namespace AddressBook
             var contacts = dataAccess.ExecuteSelectCommand(cmdText, CommandType.Text, parameters);
 
             ContactDataGridView.DataSource = contacts.Tables[0];
+
+            ShowAddressGridView.Columns.Clear();
+            ShowEmailGridView.Columns.Clear();
+            ShowTelephoneGridView.Columns.Clear();
         }
 
         private void AddressDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -180,6 +192,80 @@ namespace AddressBook
             LoadAddressInfo(id);
             LoadTelephoneInfo(id);
             LoadEmailInfo(id);
+            ClearResultLabel();
+        }
+
+        private void ClearResultLabel()
+        {
+            ResultLabel.BackColor = Color.Empty;
+            ResultLabel.Text = "";
+        }
+
+        private void ClearSearchBtn_Click(object sender, EventArgs e)
+        {
+            LoadAddressBook();
+            ShowAddressGridView.Columns.Clear();
+            ShowEmailGridView.Columns.Clear();
+            ShowTelephoneGridView.Columns.Clear();
+        }
+
+        private void EditAddressInfo(object sender, DataGridViewCellEventArgs e)
+        {
+            var newValue = ShowAddressGridView[e.ColumnIndex, e.RowIndex].Value;
+            var columnName = ShowAddressGridView.Columns[e.ColumnIndex].HeaderText;
+            var id = ShowAddressGridView[0, e.RowIndex].Value;
+
+            SqlParameter[] parameters = {
+                new SqlParameter("@Id", id),
+                new SqlParameter("@" + columnName, newValue)
+            };
+
+            var command = $"update Address " +
+                          $"set {columnName} = @{columnName} " +
+                          $"where Id = @Id";
+
+            UpdateData(command, parameters);
+        }
+
+        private void EditEmailInfo(object sender, DataGridViewCellEventArgs e)
+        {
+            var newValue = ShowEmailGridView[e.ColumnIndex, e.RowIndex].Value;
+            var columnName = ShowEmailGridView.Columns[e.ColumnIndex].HeaderText;
+            var id = ShowEmailGridView[0, e.RowIndex].Value;
+
+            SqlParameter[] parameters = {
+                new SqlParameter("@Id", id),
+                new SqlParameter("@" + columnName, newValue)
+            };
+
+            var command = $"update Email " +
+                          $"set {columnName} = @{columnName} " +
+                          $"where Id = @Id";
+
+            UpdateData(command, parameters);
+        }
+
+        private void EditTelephoneInfo(object sender, DataGridViewCellEventArgs e)
+        {
+            var newValue = ShowTelephoneGridView[e.ColumnIndex, e.RowIndex].Value;
+            var columnName = ShowTelephoneGridView.Columns[e.ColumnIndex].HeaderText;
+            var id = ShowTelephoneGridView[0, e.RowIndex].Value;
+
+            SqlParameter[] parameters = {
+                new SqlParameter("@Id", id),
+                new SqlParameter("@" + columnName, newValue)
+            };
+
+            var command = $"update Telephone " +
+                          $"set {columnName} = @{columnName} " +
+                          $"where Id = @Id";
+
+            UpdateData(command, parameters);
+        }
+
+        private void ClearResultLabel(object sender, DataGridViewCellEventArgs e)
+        {
+            ClearResultLabel();
         }
     }
 }
