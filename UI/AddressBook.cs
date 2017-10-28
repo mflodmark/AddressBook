@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AddressBook.DAL;
+using AddressBook.UI;
 
 namespace AddressBook
 {
@@ -85,9 +86,11 @@ namespace AddressBook
 
         private void addContactToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Program.OpenSecondFormOnClose = true;
+            var openForm = new NewContact();
+            openForm.Show();
+            this.Hide();
 
-            Close();
+            FormState.PreviousPage = this;
         }
 
         private void DeleteBtn_Click(object sender, EventArgs e)

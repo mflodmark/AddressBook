@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAL\DataAccess.cs" />
+    <Compile Include="UI\Address.cs" />
     <Compile Include="UI\AddressBook.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -54,12 +55,15 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\Contact.cs" />
+    <Compile Include="UI\FormState.cs" />
     <Compile Include="UI\NewContact.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\NewContact.Designer.cs">
       <DependentUpon>NewContact.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Telephone.cs" />
     <EmbeddedResource Include="UI\AddressBook.resx">
       <DependentUpon>AddressBook.cs</DependentUpon>
     </EmbeddedResource>

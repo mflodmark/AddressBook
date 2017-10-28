@@ -121,6 +121,7 @@
             this.SearchName.AccessibleDescription = "";
             this.SearchName.AccessibleName = "";
             this.SearchName.Location = new System.Drawing.Point(114, 75);
+            this.SearchName.MaxLength = 50;
             this.SearchName.Name = "SearchName";
             this.SearchName.Size = new System.Drawing.Size(202, 26);
             this.SearchName.TabIndex = 1;
@@ -128,9 +129,11 @@
             // SearchCity
             // 
             this.SearchCity.Location = new System.Drawing.Point(322, 75);
+            this.SearchCity.MaxLength = 30;
             this.SearchCity.Name = "SearchCity";
             this.SearchCity.Size = new System.Drawing.Size(191, 26);
-            this.SearchCity.TabIndex = 21;
+            this.SearchCity.TabIndex = 2;
+            this.SearchCity.Tag = "";
             // 
             // SearchBtn
             // 
