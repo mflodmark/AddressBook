@@ -31,6 +31,8 @@ namespace AddressBook
             SearchContactType.Items.Add("Övrig");
         }
 
+        #region LoadContactInfo
+
         public void LoadAddressBook()
         {
             var table = LoadData("select Id, Name from Contact;", -1);
@@ -40,7 +42,7 @@ namespace AddressBook
 
         private void LoadAddressInfo(int id)
         {
-            var table = LoadData("select a.Id, a.Street, a.City, a.PostalCode from Contact c " +
+            var table = LoadData("select a.Id, a.Street, a.City, a.ZipCode from Contact c " +
                                  "inner join Contact_Address ca on ca.ContactId = c.Id " +
                                  "inner join Address a on a.Id = ca.AddressId " +
                                  "where c.Id = @id", id);
@@ -79,46 +81,9 @@ namespace AddressBook
            
         }
 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
+        #endregion
 
-        private void addContactToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var openForm = new NewContact();
-            openForm.Show();
-            this.Hide();
-
-            FormState.PreviousPage = this;
-        }
-
-        private void DeleteBtn_Click(object sender, EventArgs e)
-        {
-            if (ContactDataGridView.SelectedRows.Count > 0)
-            {
-                for (int i = 0; i < ContactDataGridView.Rows.Count; i++)
-                {
-                    if (ContactDataGridView.Rows[i].Selected)
-                    {
-                        var id = ContactDataGridView[0, i].Value;
-
-                        SqlParameter[] parameters =
-                        {
-                            new SqlParameter("@Id", id)
-                        };
-
-                        var command = "delete from Contact where Id = @Id;";
-                        var dataAccess = new DataAccess();
-                        var result = dataAccess.ExecuteNonQuery(command, CommandType.Text, parameters);
-
-                        ResultLabel.Text = result ? "Deleted successfully!" : "Delete didn't work...";
-
-                        if (result) ContactDataGridView.Rows.RemoveAt(i);
-                    }
-                }
-            }
-        }
+        #region EditContactInfo
 
         private void EditAddressBook(object sender, DataGridViewCellEventArgs e)
         {
@@ -153,63 +118,6 @@ namespace AddressBook
                 ResultLabel.Text = "Doh! Update didn't work...";
                 ResultLabel.BackColor = Color.Red;
             }
-        }
-
-        private void SearchBtn_Click(object sender, EventArgs e)
-        {
-            var dataAccess = new DataAccess();
-            var searchName = "";
-            var searchCity = SearchCity.Text;
-            var searchContact = "";
-
-            if (SearchName.Text != "") searchName = $"%{SearchName.Text}%";
-
-            if (SearchContactType.SelectedItem != null) searchContact = SearchContactType.SelectedItem.ToString();
-            
-            SqlParameter[] parameters = {
-                new SqlParameter("@Name", searchName),
-                new SqlParameter("@City", searchCity),
-                new SqlParameter("@ContactType", searchContact)
-            };
-            
-            var cmdText = "select c.Id, c.Name from Contact c " +
-                          "inner join Contact_Address ca on ca.ContactId = c.Id " +
-                          "inner join Address a on a.Id = ca.AddressId " +
-                          "where c.Name like @Name " +
-                          "or a.City like @City " +
-                          "or c.ContactType like @ContactType;";
-
-            var contacts = dataAccess.ExecuteSelectCommand(cmdText, CommandType.Text, parameters);
-
-            ContactDataGridView.DataSource = contacts.Tables[0];
-
-            ShowAddressGridView.Columns.Clear();
-            ShowEmailGridView.Columns.Clear();
-            ShowTelephoneGridView.Columns.Clear();
-        }
-
-        private void AddressDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            var id = (int)ContactDataGridView[0, e.RowIndex].Value;
-
-            LoadAddressInfo(id);
-            LoadTelephoneInfo(id);
-            LoadEmailInfo(id);
-            ClearResultLabel();
-        }
-
-        private void ClearResultLabel()
-        {
-            ResultLabel.BackColor = Color.Empty;
-            ResultLabel.Text = "";
-        }
-
-        private void ClearSearchBtn_Click(object sender, EventArgs e)
-        {
-            LoadAddressBook();
-            ShowAddressGridView.Columns.Clear();
-            ShowEmailGridView.Columns.Clear();
-            ShowTelephoneGridView.Columns.Clear();
         }
 
         private void EditAddressInfo(object sender, DataGridViewCellEventArgs e)
@@ -266,9 +174,125 @@ namespace AddressBook
             UpdateData(command, parameters);
         }
 
+        #endregion
+
+        #region Clicks
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void addContactToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var openForm = new NewContact();
+            openForm.Show();
+            this.Hide();
+
+            FormState.PreviousPage = this;
+        }
+
+        private void DeleteBtn_Click(object sender, EventArgs e)
+        {
+            if (ContactDataGridView.SelectedRows.Count > 0)
+            {
+                for (int i = 0; i < ContactDataGridView.Rows.Count; i++)
+                {
+                    if (ContactDataGridView.Rows[i].Selected)
+                    {
+                        var id = ContactDataGridView[0, i].Value;
+
+                        SqlParameter[] parameters =
+                        {
+                            new SqlParameter("@Id", id)
+                        };
+
+                        var command = "delete from Contact where Id = @Id;";
+                        var dataAccess = new DataAccess();
+                        var result = dataAccess.ExecuteNonQuery(command, CommandType.Text, parameters);
+
+                        ResultLabel.Text = result ? "Deleted successfully!" : "Delete didn't work...";
+
+                        if (result) ContactDataGridView.Rows.RemoveAt(i);
+                    }
+                }
+            }
+
+            ShowAddressGridView.Columns.Clear();
+            ShowEmailGridView.Columns.Clear();
+            ShowTelephoneGridView.Columns.Clear();
+        }
+
+
+
+        private void SearchBtn_Click(object sender, EventArgs e)
+        {
+            var dataAccess = new DataAccess();
+            var searchName = "";
+            var searchCity = SearchCity.Text;
+            var searchContact = "";
+
+            if (SearchName.Text != "") searchName = $"%{SearchName.Text}%";
+
+            if (SearchContactType.SelectedItem != null) searchContact = SearchContactType.SelectedItem.ToString();
+
+            SqlParameter[] parameters = {
+                new SqlParameter("@Name", searchName),
+                new SqlParameter("@City", searchCity),
+                new SqlParameter("@ContactType", searchContact)
+            };
+
+            var cmdText = "select c.Id, c.Name from Contact c " +
+                          "inner join Contact_Address ca on ca.ContactId = c.Id " +
+                          "inner join Address a on a.Id = ca.AddressId " +
+                          "where c.Name like @Name " +
+                          "or a.City like @City " +
+                          "or c.ContactType like @ContactType;";
+
+            var contacts = dataAccess.ExecuteSelectCommand(cmdText, CommandType.Text, parameters);
+
+            ContactDataGridView.DataSource = contacts.Tables[0];
+
+            ShowAddressGridView.Columns.Clear();
+            ShowEmailGridView.Columns.Clear();
+            ShowTelephoneGridView.Columns.Clear();
+        }
+
+        private void AddressDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var id = (int)ContactDataGridView[0, e.RowIndex].Value;
+
+            LoadAddressInfo(id);
+            LoadTelephoneInfo(id);
+            LoadEmailInfo(id);
+            ClearResultLabel();
+        }
+
+        private void ClearResultLabel()
+        {
+            ResultLabel.BackColor = Color.Empty;
+            ResultLabel.Text = "";
+        }
+
         private void ClearResultLabel(object sender, DataGridViewCellEventArgs e)
         {
             ClearResultLabel();
         }
+
+        private void ClearSearchBtn_Click(object sender, EventArgs e)
+        {
+            LoadAddressBook();
+            ShowAddressGridView.Columns.Clear();
+            ShowEmailGridView.Columns.Clear();
+            ShowTelephoneGridView.Columns.Clear();
+        }
+
+        #endregion
+
+
+
+
+
+
     }
 }

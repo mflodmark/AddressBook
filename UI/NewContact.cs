@@ -29,24 +29,7 @@ namespace AddressBook.UI
             NewTypeComboBox.Items.Add("Övrig");
         }
 
-        private void UndoBtn_Click(object sender, EventArgs e)
-        {
-            FormState.PreviousPage.Show();
-            Close();
-        }
-
-        private void CreateContactBtn_Click(object sender, EventArgs e)
-        {
-            var id = InsertContact();
-
-            InsertTelephone(id);
-
-            FormState.PreviousPage.Show();
-            Close();
-
-            //var addressBook = new AddressBook();
-            //addressBook.LoadAddressBook();
-        }
+        #region InsertContactInfo
 
         private int InsertContact()
         {
@@ -74,7 +57,31 @@ namespace AddressBook.UI
 
         private void InsertAddress(int id)
         {
-            
+            var dataAccess = new DataAccess();
+
+            foreach (var item in contact.Addresses)
+            {
+                SqlParameter[] parameters = {
+                new SqlParameter("@Street", item.Street),
+                new SqlParameter("@City", item.City),
+                new SqlParameter("@ZipCode", item.ZipCode)
+                };
+
+                var cmdText = "insert into Address (Street,City,ZipCode) " +
+                              "values (@Street, @City, @ZipCode) ";
+
+                dataAccess.ExecuteNonQuery(cmdText, CommandType.Text, parameters);
+
+                var cmd = "select top(1) Id from Address order by Id desc";
+                var contacts = dataAccess.ExecuteSelectCommand(cmd, CommandType.Text, null);
+
+                var idFromAddress = contacts.Tables[0].Rows[0]["Id"].ToString();
+
+                var addContactAddress = "insert into Contact_Address (ContactId, AddressId) " +
+                                            $"values ({id}, {idFromAddress}) ";
+
+                dataAccess.ExecuteNonQuery(addContactAddress, CommandType.Text, null);
+            }
         }
 
         private void InsertTelephone(int id)
@@ -112,6 +119,31 @@ namespace AddressBook.UI
 
                 dataAccess.ExecuteNonQuery(cmdText, CommandType.Text, parameters);
             }
+        }
+
+        #endregion
+        
+        #region ButtonClicks
+
+        private void UndoBtn_Click(object sender, EventArgs e)
+        {
+            FormState.PreviousPage.Show();
+            Close();
+        }
+
+        private void CreateContactBtn_Click(object sender, EventArgs e)
+        {
+            var id = InsertContact();
+
+            InsertTelephone(id);
+            InsertEmail(id);
+            InsertAddress(id);
+
+            FormState.PreviousPage.Show();
+            Close();
+
+            //var addressBook = new AddressBook();
+            //addressBook.LoadAddressBook();
         }
 
         private void AddAddressBtn_Click(object sender, EventArgs e)
@@ -156,5 +188,9 @@ namespace AddressBook.UI
             NewEmailGrid.DataSource = null;
             NewEmailGrid.DataSource = contact.Email;
         }
+
+        #endregion
+
+
     }
 }

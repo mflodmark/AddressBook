@@ -99,7 +99,7 @@
             this.NewAddressGrid.Name = "NewAddressGrid";
             this.NewAddressGrid.RowTemplate.Height = 28;
             this.NewAddressGrid.Size = new System.Drawing.Size(418, 188);
-            this.NewAddressGrid.TabIndex = 4;
+            this.NewAddressGrid.TabIndex = 47;
             // 
             // NewTelephoneGrid
             // 
@@ -109,7 +109,7 @@
             this.NewTelephoneGrid.Name = "NewTelephoneGrid";
             this.NewTelephoneGrid.RowTemplate.Height = 28;
             this.NewTelephoneGrid.Size = new System.Drawing.Size(327, 188);
-            this.NewTelephoneGrid.TabIndex = 5;
+            this.NewTelephoneGrid.TabIndex = 57;
             // 
             // NewEmailGrid
             // 
@@ -119,7 +119,7 @@
             this.NewEmailGrid.Name = "NewEmailGrid";
             this.NewEmailGrid.RowTemplate.Height = 28;
             this.NewEmailGrid.Size = new System.Drawing.Size(358, 188);
-            this.NewEmailGrid.TabIndex = 6;
+            this.NewEmailGrid.TabIndex = 77;
             // 
             // CreateContactBtn
             // 
@@ -127,7 +127,7 @@
             this.CreateContactBtn.Location = new System.Drawing.Point(1049, 568);
             this.CreateContactBtn.Name = "CreateContactBtn";
             this.CreateContactBtn.Size = new System.Drawing.Size(119, 66);
-            this.CreateContactBtn.TabIndex = 7;
+            this.CreateContactBtn.TabIndex = 77;
             this.CreateContactBtn.Text = "Create contact!";
             this.CreateContactBtn.UseVisualStyleBackColor = false;
             this.CreateContactBtn.Click += new System.EventHandler(this.CreateContactBtn_Click);
@@ -138,7 +138,7 @@
             this.UndoBtn.Location = new System.Drawing.Point(12, 568);
             this.UndoBtn.Name = "UndoBtn";
             this.UndoBtn.Size = new System.Drawing.Size(124, 66);
-            this.UndoBtn.TabIndex = 8;
+            this.UndoBtn.TabIndex = 77;
             this.UndoBtn.Text = "Undo and go back...";
             this.UndoBtn.UseVisualStyleBackColor = false;
             this.UndoBtn.Click += new System.EventHandler(this.UndoBtn_Click);
@@ -201,7 +201,7 @@
             this.AddAddressBtn.Location = new System.Drawing.Point(385, 188);
             this.AddAddressBtn.Name = "AddAddressBtn";
             this.AddAddressBtn.Size = new System.Drawing.Size(76, 90);
-            this.AddAddressBtn.TabIndex = 16;
+            this.AddAddressBtn.TabIndex = 77;
             this.AddAddressBtn.Text = "Add";
             this.AddAddressBtn.UseVisualStyleBackColor = true;
             this.AddAddressBtn.Click += new System.EventHandler(this.AddAddressBtn_Click);
@@ -211,7 +211,7 @@
             this.AddTelBtn.Location = new System.Drawing.Point(718, 188);
             this.AddTelBtn.Name = "AddTelBtn";
             this.AddTelBtn.Size = new System.Drawing.Size(76, 90);
-            this.AddTelBtn.TabIndex = 17;
+            this.AddTelBtn.TabIndex = 177;
             this.AddTelBtn.Text = "Add";
             this.AddTelBtn.UseVisualStyleBackColor = true;
             this.AddTelBtn.Click += new System.EventHandler(this.AddTelBtn_Click);
@@ -221,7 +221,7 @@
             this.AddEmailBtn.Location = new System.Drawing.Point(1082, 244);
             this.AddEmailBtn.Name = "AddEmailBtn";
             this.AddEmailBtn.Size = new System.Drawing.Size(76, 34);
-            this.AddEmailBtn.TabIndex = 18;
+            this.AddEmailBtn.TabIndex = 187;
             this.AddEmailBtn.Text = "Add";
             this.AddEmailBtn.UseVisualStyleBackColor = true;
             this.AddEmailBtn.Click += new System.EventHandler(this.AddEmailBtn_Click);
@@ -268,7 +268,7 @@
             this.NewDiallingTextBox.Name = "NewDiallingTextBox";
             this.NewDiallingTextBox.Size = new System.Drawing.Size(245, 26);
             this.NewDiallingTextBox.TabIndex = 8;
-            this.NewDiallingTextBox.Text = "Riktnummer";
+            this.NewDiallingTextBox.Text = "070";
             // 
             // NewCountryTextBox
             // 
@@ -277,7 +277,7 @@
             this.NewCountryTextBox.Name = "NewCountryTextBox";
             this.NewCountryTextBox.Size = new System.Drawing.Size(245, 26);
             this.NewCountryTextBox.TabIndex = 7;
-            this.NewCountryTextBox.Text = "Landkod";
+            this.NewCountryTextBox.Text = "+46";
             // 
             // NewContact
             // 
