@@ -194,7 +194,7 @@ namespace AddressBook
 
         private void DeleteBtn_Click(object sender, EventArgs e)
         {
-            if (ContactDataGridView.SelectedRows.Count > 0)
+           if (ContactDataGridView.SelectedRows.Count > 0)
             {
                 for (int i = 0; i < ContactDataGridView.Rows.Count; i++)
                 {
@@ -223,6 +223,87 @@ namespace AddressBook
             ShowTelephoneGridView.Columns.Clear();
         }
 
+
+        private void DeleteEmailBtn_Click(object sender, EventArgs e)
+        {
+            if (ShowEmailGridView.SelectedRows.Count > 0)
+            {
+                for (int i = 0; i < ShowEmailGridView.Rows.Count; i++)
+                {
+                    if (ShowEmailGridView.Rows[i].Selected)
+                    {
+                        var id = ShowEmailGridView[0, i].Value;
+
+                        SqlParameter[] parameters =
+                        {
+                            new SqlParameter("@Id", id)
+                        };
+
+                        var command = "delete from Email where Id = @Id;";
+                        var dataAccess = new DataAccess();
+                        var result = dataAccess.ExecuteNonQuery(command, CommandType.Text, parameters);
+
+                        ResultLabel.Text = result ? "Deleted successfully!" : "Delete didn't work...";
+
+                        if (result) ShowEmailGridView.Rows.RemoveAt(i);
+                    }
+                }
+            }
+        }
+
+        private void DeleteAddressBtn_Click(object sender, EventArgs e)
+        {
+            if (ShowAddressGridView.SelectedRows.Count > 0)
+            {
+                for (int i = 0; i < ShowAddressGridView.Rows.Count; i++)
+                {
+                    if (ShowAddressGridView.Rows[i].Selected)
+                    {
+                        var id = ShowAddressGridView[0, i].Value;
+
+                        SqlParameter[] parameters =
+                        {
+                            new SqlParameter("@Id", id)
+                        };
+
+                        var command = "delete from Address where Id = @Id;";
+                        var dataAccess = new DataAccess();
+                        var result = dataAccess.ExecuteNonQuery(command, CommandType.Text, parameters);
+
+                        ResultLabel.Text = result ? "Deleted successfully!" : "Delete didn't work...";
+
+                        if (result) ShowAddressGridView.Rows.RemoveAt(i);
+                    }
+                }
+            }
+        }
+
+        private void DeleteTelBtn_Click(object sender, EventArgs e)
+        {
+            if (ShowTelephoneGridView.SelectedRows.Count > 0)
+            {
+                for (int i = 0; i < ShowTelephoneGridView.Rows.Count; i++)
+                {
+                    if (ShowTelephoneGridView.Rows[i].Selected)
+                    {
+                        var id = ShowTelephoneGridView[0, i].Value;
+
+                        SqlParameter[] parameters =
+                        {
+                            new SqlParameter("@Id", id)
+                        };
+
+                        var command = "delete from Telephone where Id = @Id;";
+                        var dataAccess = new DataAccess();
+                        var result = dataAccess.ExecuteNonQuery(command, CommandType.Text, parameters);
+
+                        ResultLabel.Text = result ? "Deleted successfully!" : "Delete didn't work...";
+
+                        if (result) ShowTelephoneGridView.Rows.RemoveAt(i);
+                    }
+                }
+            }
+        }
 
 
         private void SearchBtn_Click(object sender, EventArgs e)
@@ -287,12 +368,12 @@ namespace AddressBook
             ShowTelephoneGridView.Columns.Clear();
         }
 
+
+
+
+
+
         #endregion
-
-
-
-
-
 
     }
 }

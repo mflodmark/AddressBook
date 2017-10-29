@@ -50,6 +50,9 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.ClearSearchBtn = new System.Windows.Forms.Button();
+            this.DeleteAddressBtn = new System.Windows.Forms.Button();
+            this.DeleteTelBtn = new System.Windows.Forms.Button();
+            this.DeleteEmailBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ContactDataGridView)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ShowAddressGridView)).BeginInit();
@@ -74,11 +77,11 @@
             // DeleteBtn
             // 
             this.DeleteBtn.BackColor = System.Drawing.Color.Red;
-            this.DeleteBtn.Location = new System.Drawing.Point(1018, 124);
+            this.DeleteBtn.Location = new System.Drawing.Point(371, 127);
             this.DeleteBtn.Name = "DeleteBtn";
-            this.DeleteBtn.Size = new System.Drawing.Size(119, 43);
+            this.DeleteBtn.Size = new System.Drawing.Size(142, 40);
             this.DeleteBtn.TabIndex = 22;
-            this.DeleteBtn.Text = "Radera rad";
+            this.DeleteBtn.Text = "Radera kontakt";
             this.DeleteBtn.UseVisualStyleBackColor = false;
             this.DeleteBtn.Click += new System.EventHandler(this.DeleteBtn_Click);
             // 
@@ -280,11 +283,47 @@
             this.ClearSearchBtn.UseVisualStyleBackColor = false;
             this.ClearSearchBtn.Click += new System.EventHandler(this.ClearSearchBtn_Click);
             // 
+            // DeleteAddressBtn
+            // 
+            this.DeleteAddressBtn.BackColor = System.Drawing.Color.Red;
+            this.DeleteAddressBtn.Location = new System.Drawing.Point(995, 127);
+            this.DeleteAddressBtn.Name = "DeleteAddressBtn";
+            this.DeleteAddressBtn.Size = new System.Drawing.Size(142, 40);
+            this.DeleteAddressBtn.TabIndex = 31;
+            this.DeleteAddressBtn.Text = "Radera adress";
+            this.DeleteAddressBtn.UseVisualStyleBackColor = false;
+            this.DeleteAddressBtn.Click += new System.EventHandler(this.DeleteAddressBtn_Click);
+            // 
+            // DeleteTelBtn
+            // 
+            this.DeleteTelBtn.BackColor = System.Drawing.Color.Red;
+            this.DeleteTelBtn.Location = new System.Drawing.Point(995, 360);
+            this.DeleteTelBtn.Name = "DeleteTelBtn";
+            this.DeleteTelBtn.Size = new System.Drawing.Size(142, 40);
+            this.DeleteTelBtn.TabIndex = 32;
+            this.DeleteTelBtn.Text = "Radera nummer";
+            this.DeleteTelBtn.UseVisualStyleBackColor = false;
+            this.DeleteTelBtn.Click += new System.EventHandler(this.DeleteTelBtn_Click);
+            // 
+            // DeleteEmailBtn
+            // 
+            this.DeleteEmailBtn.BackColor = System.Drawing.Color.Red;
+            this.DeleteEmailBtn.Location = new System.Drawing.Point(371, 360);
+            this.DeleteEmailBtn.Name = "DeleteEmailBtn";
+            this.DeleteEmailBtn.Size = new System.Drawing.Size(142, 40);
+            this.DeleteEmailBtn.TabIndex = 33;
+            this.DeleteEmailBtn.Text = "Radera email";
+            this.DeleteEmailBtn.UseVisualStyleBackColor = false;
+            this.DeleteEmailBtn.Click += new System.EventHandler(this.DeleteEmailBtn_Click);
+            // 
             // AddressBook
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1180, 646);
+            this.Controls.Add(this.DeleteEmailBtn);
+            this.Controls.Add(this.DeleteTelBtn);
+            this.Controls.Add(this.DeleteAddressBtn);
             this.Controls.Add(this.ClearSearchBtn);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
@@ -342,6 +381,9 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button ClearSearchBtn;
+        private System.Windows.Forms.Button DeleteAddressBtn;
+        private System.Windows.Forms.Button DeleteTelBtn;
+        private System.Windows.Forms.Button DeleteEmailBtn;
     }
 }
 
