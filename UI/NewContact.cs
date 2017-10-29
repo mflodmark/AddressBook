@@ -37,10 +37,15 @@ namespace AddressBook.UI
 
         private void CreateContactBtn_Click(object sender, EventArgs e)
         {
-            InsertContact();
+            var id = InsertContact();
+
+            InsertTelephone(id);
 
             FormState.PreviousPage.Show();
             Close();
+
+            //var addressBook = new AddressBook();
+            //addressBook.LoadAddressBook();
         }
 
         private int InsertContact()
@@ -56,18 +61,57 @@ namespace AddressBook.UI
             var cmdText = "insert into Contact (Name, ContactType) " +
                           "values (@Name, @Type) ";
 
-
-
             dataAccess.ExecuteNonQuery(cmdText, CommandType.Text, parameters);
 
             var cmd = "select top(1) Id from Contact order by Id desc";
+
             var contacts = dataAccess.ExecuteSelectCommand(cmd, CommandType.Text, null);
 
             var id = contacts.Tables[0].Rows[0]["Id"].ToString();
 
-            return  int.Parse(id);
+            return int.Parse(id);
+        }
 
+        private void InsertAddress(int id)
+        {
             
+        }
+
+        private void InsertTelephone(int id)
+        {
+            var dataAccess = new DataAccess();
+
+            foreach (var item in contact.Telephones)
+            {
+                SqlParameter[] parameters = {
+                    new SqlParameter("@CountryCode", item.CountryCode),
+                    new SqlParameter("@DiallingCode", item.DiallingCode),
+                    new SqlParameter("@TelephoneNumber", item.TelephoneNumber)
+                };
+
+                var cmdText = "insert into Telephone (CountryCode, DiallingCode, TelephoneNumber, ContactId) " +
+                              $"values (@CountryCode, @DiallingCode, @TelephoneNumber, {id})";
+
+                dataAccess.ExecuteNonQuery(cmdText, CommandType.Text, parameters);
+            }
+        }
+
+        private void InsertEmail(int id)
+        {
+            var dataAccess = new DataAccess();
+
+            foreach (var item in contact.Email)
+            {
+                SqlParameter[] parameters = {
+                    new SqlParameter("@Email", item.Email)
+
+                };
+
+                var cmdText = "insert into Email (Email, ContactId) " +
+                              $"values (@Email, {id})";
+
+                dataAccess.ExecuteNonQuery(cmdText, CommandType.Text, parameters);
+            }
         }
 
         private void AddAddressBtn_Click(object sender, EventArgs e)

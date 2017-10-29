@@ -31,7 +31,7 @@ namespace AddressBook
             SearchContactType.Items.Add("Övrig");
         }
 
-        private void LoadAddressBook()
+        public void LoadAddressBook()
         {
             var table = LoadData("select Id, Name from Contact;", -1);
 
