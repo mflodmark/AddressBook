@@ -19,12 +19,12 @@ namespace AddressBook
         {
             InitializeComponent();
 
-            AddColorToSearchBox();
+            AddItemsToComboBox();
 
             LoadAddressBook();
         }
 
-        private void AddColorToSearchBox()
+        private void AddItemsToComboBox()
         {
             SearchContactType.Items.Add("Personlig");
             SearchContactType.Items.Add("Jobb");
