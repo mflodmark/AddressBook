@@ -37,29 +37,37 @@ namespace AddressBook.UI
 
         private void CreateContactBtn_Click(object sender, EventArgs e)
         {
-            var addContact = "insert into Contact (Name, ContactType) " +
-                             "values (@Name, @Type) ";
-
-            var name = NewFirstNameTxtBox.Text + " " + NewLastNameTxtBox.Text;
-
-            InsertContact(addContact, name, NewTypeComboBox.SelectedItem.ToString());
+            InsertContact();
 
             FormState.PreviousPage.Show();
             Close();
         }
 
-        private bool InsertContact(string command, string name, string type)
+        private int InsertContact()
         {
             var dataAccess = new DataAccess();
-            var cmdText = command;
+            var name = NewFirstNameTxtBox.Text + " " + NewLastNameTxtBox.Text;
 
             SqlParameter[] parameters = {
                 new SqlParameter("@Name", name),
-                new SqlParameter("@Type", type)
+                new SqlParameter("@Type", NewTypeComboBox.SelectedItem.ToString())
             };
 
-            return dataAccess.ExecuteNonQuery(cmdText, CommandType.Text, parameters);
+            var cmdText = "insert into Contact (Name, ContactType) " +
+                          "values (@Name, @Type) ";
 
+
+
+            dataAccess.ExecuteNonQuery(cmdText, CommandType.Text, parameters);
+
+            var cmd = "select top(1) Id from Contact order by Id desc";
+            var contacts = dataAccess.ExecuteSelectCommand(cmd, CommandType.Text, null);
+
+            var id = contacts.Tables[0].Rows[0]["Id"].ToString();
+
+            return  int.Parse(id);
+
+            
         }
 
         private void AddAddressBtn_Click(object sender, EventArgs e)
