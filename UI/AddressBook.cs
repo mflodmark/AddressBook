@@ -153,10 +153,15 @@ namespace AddressBook
 
         private int InsertEmail()
         {
-            var cmdInsert = "insert into Email (Email) " +
-                            "values (*)";
+            SqlParameter[] parameters = {
+                new SqlParameter("@Id", contactId)
 
-            UpdateData(cmdInsert, null);
+            };
+
+            var cmdInsert = "insert into Email (Email,ContactId) " +
+                            "values ('*', @Id)";
+
+            UpdateData(cmdInsert, parameters);
 
             var dataAccess = new DataAccess();
 
@@ -217,12 +222,23 @@ namespace AddressBook
 
         private void EditEmailInfo(object sender, DataGridViewCellEventArgs e)
         {
+            var emailId = 0;
+
+            if (ShowEmailGridView[0, e.RowIndex].Value.ToString() == "")
+            {
+                emailId = InsertEmail();
+                ShowEmailGridView[0, e.RowIndex].Value = emailId;
+            }
+            else
+            {
+                emailId = (int)ShowEmailGridView[0, e.RowIndex].Value;
+            }
+
             var newValue = ShowEmailGridView[e.ColumnIndex, e.RowIndex].Value;
             var columnName = ShowEmailGridView.Columns[e.ColumnIndex].HeaderText;
-            var id = ShowEmailGridView[0, e.RowIndex].Value;
 
             SqlParameter[] parameters = {
-                new SqlParameter("@Id", id),
+                new SqlParameter("@Id", emailId),
                 new SqlParameter("@" + columnName, newValue)
             };
 
@@ -249,7 +265,6 @@ namespace AddressBook
 
             var newValue = ShowTelephoneGridView[e.ColumnIndex, e.RowIndex].Value;
             var columnName = ShowTelephoneGridView.Columns[e.ColumnIndex].HeaderText;
-            //var id = ShowTelephoneGridView[0, e.RowIndex].Value;
 
             SqlParameter[] parameters = {
                 new SqlParameter("@Id", telId),
@@ -401,24 +416,10 @@ namespace AddressBook
             var searchName = "";
             var searchCity = SearchCity.Text;
             var searchContactType = "";
-            //var searchContactTypeId = 0;
 
             if (SearchName.Text != "") searchName = $"%{SearchName.Text}%";
 
             if (SearchContactType.SelectedItem != null) searchContactType = SearchContactType.SelectedItem.ToString();
-
-            //switch (searchContactType)
-            //{
-            //    case "Personlig":
-            //        searchContactTypeId = 1;
-            //        break;
-            //    case "Jobb":
-            //        searchContactTypeId = 2;
-            //        break;
-            //    case "Övrig":
-            //        searchContactTypeId = 3;
-            //        break;
-            //}
 
             SqlParameter[] parameters = {
                 new SqlParameter("@Name", searchName),
