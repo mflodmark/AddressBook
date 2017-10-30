@@ -196,7 +196,6 @@
             // 
             // ShowAddressGridView
             // 
-            this.ShowAddressGridView.AllowUserToAddRows = false;
             this.ShowAddressGridView.AllowUserToDeleteRows = false;
             this.ShowAddressGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.ShowAddressGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -210,7 +209,6 @@
             // 
             // ShowTelephoneGridView
             // 
-            this.ShowTelephoneGridView.AllowUserToAddRows = false;
             this.ShowTelephoneGridView.AllowUserToDeleteRows = false;
             this.ShowTelephoneGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.ShowTelephoneGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -224,7 +222,6 @@
             // 
             // ShowEmailGridView
             // 
-            this.ShowEmailGridView.AllowUserToAddRows = false;
             this.ShowEmailGridView.AllowUserToDeleteRows = false;
             this.ShowEmailGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.ShowEmailGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;

@@ -35,13 +35,27 @@ namespace AddressBook.UI
         {
             var dataAccess = new DataAccess();
             var name = NewFirstNameTxtBox.Text + " " + NewLastNameTxtBox.Text;
+            var contactId = 0;
+
+            switch (NewTypeComboBox.SelectedItem.ToString())
+            {
+                case "Personlig":
+                    contactId = 1;
+                    break;
+                case "Jobb":
+                    contactId = 2;
+                    break;
+                case "Övrig":
+                    contactId = 3;
+                    break;
+            }
 
             SqlParameter[] parameters = {
                 new SqlParameter("@Name", name),
-                new SqlParameter("@Type", NewTypeComboBox.SelectedItem.ToString())
+                new SqlParameter("@Type", contactId)
             };
 
-            var cmdText = "insert into Contact (Name, ContactType) " +
+            var cmdText = "insert into Contact (Name, ContactTypeId) " +
                           "values (@Name, @Type) ";
 
             dataAccess.ExecuteNonQuery(cmdText, CommandType.Text, parameters);

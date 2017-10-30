@@ -15,6 +15,8 @@ namespace AddressBook
 {
     public partial class AddressBook : Form
     {
+        private int contactId;
+
         public AddressBook()
         {
             InitializeComponent();
@@ -86,7 +88,7 @@ namespace AddressBook
         #region EditContactInfo
 
         private void EditAddressBook(object sender, DataGridViewCellEventArgs e)
-        {
+        {           
             var newValue = ContactDataGridView[e.ColumnIndex, e.RowIndex].Value;
             var columnName = ContactDataGridView.Columns[e.ColumnIndex].HeaderText;
             var id = ContactDataGridView[0, e.RowIndex].Value;
@@ -101,6 +103,70 @@ namespace AddressBook
                           $"where Id = @Id";
 
             UpdateData(command, parameters);
+        }
+
+        private int InsertAddress(int contactId)
+        {
+            var cmdInsert = "insert into address (Street, City, ZipCode) " +
+                            "values (*,*,*)";
+
+            UpdateData(cmdInsert, null);
+
+            var dataAccess = new DataAccess();
+
+            var cmd = "select top(1) Id from Address order by Id desc";
+
+            var contacts = dataAccess.ExecuteSelectCommand(cmd, CommandType.Text, null);
+
+            var id = contacts.Tables[0].Rows[0]["Id"].ToString();
+
+            var addContactAddress = "insert into Contact_Address (ContactId, AddressId) " +
+                                    $"values ({contactId}, {id}) ";
+
+            dataAccess.ExecuteNonQuery(addContactAddress, CommandType.Text, null);
+
+            return int.Parse(id);
+        }
+
+        private int InsertTelephone()
+        {
+            SqlParameter[] parameters = {
+                new SqlParameter("@Id", contactId)
+                
+            };
+
+            var cmdInsert = "insert into Telephone (CountryCode, DiallingCode, TelephoneNumber, ContactId) " +
+                            "values ('*','*','*',@Id)";
+
+            UpdateData(cmdInsert, parameters);
+
+            var dataAccess = new DataAccess();
+
+            var cmd = "select top(1) Id from Telephone order by Id desc";
+
+            var contacts = dataAccess.ExecuteSelectCommand(cmd, CommandType.Text, null);
+
+            var id = contacts.Tables[0].Rows[0]["Id"].ToString();
+
+            return int.Parse(id);
+        }
+
+        private int InsertEmail()
+        {
+            var cmdInsert = "insert into Email (Email) " +
+                            "values (*)";
+
+            UpdateData(cmdInsert, null);
+
+            var dataAccess = new DataAccess();
+
+            var cmd = "select top(1) Id from Email order by Id desc";
+
+            var contacts = dataAccess.ExecuteSelectCommand(cmd, CommandType.Text, null);
+
+            var id = contacts.Tables[0].Rows[0]["Id"].ToString();
+
+            return int.Parse(id);
         }
 
         private void UpdateData(string command, SqlParameter[] parameters)
@@ -122,9 +188,20 @@ namespace AddressBook
 
         private void EditAddressInfo(object sender, DataGridViewCellEventArgs e)
         {
+            var id = 0;
             var newValue = ShowAddressGridView[e.ColumnIndex, e.RowIndex].Value;
             var columnName = ShowAddressGridView.Columns[e.ColumnIndex].HeaderText;
-            var id = ShowAddressGridView[0, e.RowIndex].Value;
+            var contactId = ContactDataGridView[0, 0].Value;
+
+            if (ContactDataGridView[0, e.RowIndex].Value == null)
+            {
+                id = InsertAddress(int.Parse(contactId.ToString()));
+            }
+            else
+            {
+                id = (int)ShowAddressGridView[0, e.RowIndex].Value;
+            }
+
 
             SqlParameter[] parameters = {
                 new SqlParameter("@Id", id),
@@ -158,12 +235,24 @@ namespace AddressBook
 
         private void EditTelephoneInfo(object sender, DataGridViewCellEventArgs e)
         {
+            var telId = 0;
+
+            if (ShowTelephoneGridView[0, e.RowIndex].Value.ToString() == "")
+            {
+                telId = InsertTelephone();
+                ShowTelephoneGridView[0, e.RowIndex].Value = telId;
+            }
+            else
+            {
+                telId = (int)ShowTelephoneGridView[0, e.RowIndex].Value;
+            }
+
             var newValue = ShowTelephoneGridView[e.ColumnIndex, e.RowIndex].Value;
             var columnName = ShowTelephoneGridView.Columns[e.ColumnIndex].HeaderText;
-            var id = ShowTelephoneGridView[0, e.RowIndex].Value;
+            //var id = ShowTelephoneGridView[0, e.RowIndex].Value;
 
             SqlParameter[] parameters = {
-                new SqlParameter("@Id", id),
+                new SqlParameter("@Id", telId),
                 new SqlParameter("@" + columnName, newValue)
             };
 
@@ -311,24 +400,39 @@ namespace AddressBook
             var dataAccess = new DataAccess();
             var searchName = "";
             var searchCity = SearchCity.Text;
-            var searchContact = "";
+            var searchContactType = "";
+            //var searchContactTypeId = 0;
 
             if (SearchName.Text != "") searchName = $"%{SearchName.Text}%";
 
-            if (SearchContactType.SelectedItem != null) searchContact = SearchContactType.SelectedItem.ToString();
+            if (SearchContactType.SelectedItem != null) searchContactType = SearchContactType.SelectedItem.ToString();
+
+            //switch (searchContactType)
+            //{
+            //    case "Personlig":
+            //        searchContactTypeId = 1;
+            //        break;
+            //    case "Jobb":
+            //        searchContactTypeId = 2;
+            //        break;
+            //    case "Övrig":
+            //        searchContactTypeId = 3;
+            //        break;
+            //}
 
             SqlParameter[] parameters = {
                 new SqlParameter("@Name", searchName),
                 new SqlParameter("@City", searchCity),
-                new SqlParameter("@ContactType", searchContact)
+                new SqlParameter("@ContactType", searchContactType)
             };
 
             var cmdText = "select c.Id, c.Name from Contact c " +
                           "left join Contact_Address ca on ca.ContactId = c.Id " +
                           "left join Address a on a.Id = ca.AddressId " +
+                          "left join ContactType ct on ct.Id = c.ContactTypeId " +
                           "where c.Name like @Name " +
                           "or a.City like @City " +
-                          "or c.ContactType = @ContactType;";
+                          "or ct.Type = @ContactType;";
 
             var contacts = dataAccess.ExecuteSelectCommand(cmdText, CommandType.Text, parameters);
 
@@ -342,6 +446,7 @@ namespace AddressBook
         private void AddressDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             var id = (int)ContactDataGridView[0, e.RowIndex].Value;
+            contactId = int.Parse(id.ToString());
 
             LoadAddressInfo(id);
             LoadTelephoneInfo(id);
