@@ -105,10 +105,10 @@ namespace AddressBook
             UpdateData(command, parameters);
         }
 
-        private int InsertAddress(int contactId)
+        private int InsertAddress()
         {
             var cmdInsert = "insert into address (Street, City, ZipCode) " +
-                            "values (*,*,*)";
+                            "values ('*','*','*')";
 
             UpdateData(cmdInsert, null);
 
@@ -198,9 +198,10 @@ namespace AddressBook
             var columnName = ShowAddressGridView.Columns[e.ColumnIndex].HeaderText;
             var contactId = ContactDataGridView[0, 0].Value;
 
-            if (ContactDataGridView[0, e.RowIndex].Value == null)
+            if (ShowAddressGridView[0, e.RowIndex].Value.ToString() == "")
             {
-                id = InsertAddress(int.Parse(contactId.ToString()));
+                id = InsertAddress();
+                ShowAddressGridView[0, e.RowIndex].Value = id;
             }
             else
             {
