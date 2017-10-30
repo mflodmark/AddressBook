@@ -324,11 +324,11 @@ namespace AddressBook
             };
 
             var cmdText = "select c.Id, c.Name from Contact c " +
-                          "inner join Contact_Address ca on ca.ContactId = c.Id " +
-                          "inner join Address a on a.Id = ca.AddressId " +
+                          "left join Contact_Address ca on ca.ContactId = c.Id " +
+                          "left join Address a on a.Id = ca.AddressId " +
                           "where c.Name like @Name " +
                           "or a.City like @City " +
-                          "or c.ContactType like @ContactType;";
+                          "or c.ContactType = @ContactType;";
 
             var contacts = dataAccess.ExecuteSelectCommand(cmdText, CommandType.Text, parameters);
 
