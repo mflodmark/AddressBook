@@ -81,13 +81,25 @@ namespace AddressBook.UI
                 new SqlParameter("@ZipCode", item.ZipCode)
                 };
 
-                var cmdText = "insert into Address (Street,City,ZipCode) " +
-                              "values (@Street, @City, @ZipCode) ";
+                var cmdText = "Declare @ExistingId int; " +
+                              "Select @ExistingId = Id from Address " +
+                "where Street + City + ZipCode = @Street + @City + @ZipCode; " +
+                "If (@ExistingId is null) "+
+                "Begin " +
+                "insert into Address (Street, City, ZipCode) "+
+                "values (@Street, @City, @ZipCode) "+
+                "End";
 
                 dataAccess.ExecuteNonQuery(cmdText, CommandType.Text, parameters);
 
-                var cmd = "select top(1) Id from Address order by Id desc";
-                var contacts = dataAccess.ExecuteSelectCommand(cmd, CommandType.Text, null);
+                var cmd = "Select Id from Address " +
+                          "where Street + City + ZipCode = @Address ";
+
+                SqlParameter[] parameters2 = {
+                    new SqlParameter("@Address", item.Street + item.City + item.ZipCode),
+                };
+
+                var contacts = dataAccess.ExecuteSelectCommand(cmd, CommandType.Text, parameters2);
 
                 var idFromAddress = contacts.Tables[0].Rows[0]["Id"].ToString();
 
@@ -155,9 +167,6 @@ namespace AddressBook.UI
 
             FormState.PreviousPage.Show();
             Close();
-
-            //var addressBook = new AddressBook();
-            //addressBook.LoadAddressBook();
         }
 
         private void AddAddressBtn_Click(object sender, EventArgs e)

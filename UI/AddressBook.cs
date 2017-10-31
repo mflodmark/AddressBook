@@ -31,6 +31,7 @@ namespace AddressBook
             SearchContactType.Items.Add("Personlig");
             SearchContactType.Items.Add("Jobb");
             SearchContactType.Items.Add("Övrig");
+            SearchContactType.Items.Add("Blankt");
         }
 
         #region LoadContactInfo
@@ -87,22 +88,37 @@ namespace AddressBook
 
         #region EditContactInfo
 
-        private void EditAddressBook(object sender, DataGridViewCellEventArgs e)
-        {           
-            var newValue = ContactDataGridView[e.ColumnIndex, e.RowIndex].Value;
-            var columnName = ContactDataGridView.Columns[e.ColumnIndex].HeaderText;
-            var id = ContactDataGridView[0, e.RowIndex].Value;
 
-            SqlParameter[] parameters = {
-                new SqlParameter("@Id", id),
-                new SqlParameter("@" + columnName, newValue)
-            };
+        #region Address
 
-            var command = $"update Contact " +
-                          $"set {columnName} = @{columnName} " +
-                          $"where Id = @Id";
+        private void EditAddressInfo(object sender, DataGridViewCellEventArgs e)
+        {
+            var id = 0;
+            var newValue = ShowAddressGridView[e.ColumnIndex, e.RowIndex].Value;
+            var columnName = ShowAddressGridView.Columns[e.ColumnIndex].HeaderText;
 
-            UpdateData(command, parameters);
+            if (ShowAddressGridView[0, e.RowIndex].Value.ToString() == "")
+            {
+                id = InsertAddress();
+                ShowAddressGridView[0, e.RowIndex].Value = id;
+            }
+            else
+            {
+                id = (int)ShowAddressGridView[0, e.RowIndex].Value;
+            }
+            
+
+                SqlParameter[] parameters = {
+                    new SqlParameter("@Id", id),
+                    new SqlParameter("@" + columnName, newValue)
+                };
+
+                var command = $"update Address " +
+                              $"set {columnName} = @{columnName} " +
+                              $"where Id = @Id";
+
+                UpdateData(command, parameters);
+            
         }
 
         private int InsertAddress()
@@ -128,127 +144,28 @@ namespace AddressBook
             return int.Parse(id);
         }
 
-        private int InsertTelephone()
-        {
-            SqlParameter[] parameters = {
-                new SqlParameter("@Id", contactId)
-                
-            };
-
-            var cmdInsert = "insert into Telephone (CountryCode, DiallingCode, TelephoneNumber, ContactId) " +
-                            "values ('*','*','*',@Id)";
-
-            UpdateData(cmdInsert, parameters);
-
-            var dataAccess = new DataAccess();
-
-            var cmd = "select top(1) Id from Telephone order by Id desc";
-
-            var contacts = dataAccess.ExecuteSelectCommand(cmd, CommandType.Text, null);
-
-            var id = contacts.Tables[0].Rows[0]["Id"].ToString();
-
-            return int.Parse(id);
-        }
-
-        private int InsertEmail()
-        {
-            SqlParameter[] parameters = {
-                new SqlParameter("@Id", contactId)
-
-            };
-
-            var cmdInsert = "insert into Email (Email,ContactId) " +
-                            "values ('*', @Id)";
-
-            UpdateData(cmdInsert, parameters);
-
-            var dataAccess = new DataAccess();
-
-            var cmd = "select top(1) Id from Email order by Id desc";
-
-            var contacts = dataAccess.ExecuteSelectCommand(cmd, CommandType.Text, null);
-
-            var id = contacts.Tables[0].Rows[0]["Id"].ToString();
-
-            return int.Parse(id);
-        }
-
-        private void UpdateData(string command, SqlParameter[] parameters)
+        private bool CheckIfAddressAlreadyExists(string address)
         {
             var dataAccess = new DataAccess();
-            var result = dataAccess.ExecuteNonQuery(command, CommandType.Text, parameters);
 
-            if (result)
+            var cmdAddress = "select Street+City+ZipCode from Address";
+
+            var contacts = dataAccess.ExecuteSelectCommand(cmdAddress, CommandType.Text, null);
+
+            var addressData = contacts.Tables[0].AsEnumerable().ToList();
+
+            foreach (var dataRow in addressData)
             {
-                ResultLabel.Text = "Update worked as planned!";
-                ResultLabel.BackColor = Color.Green;
+                if (dataRow.ToString() == address) return true;
             }
-            else
-            {
-                ResultLabel.Text = "Doh! Update didn't work...";
-                ResultLabel.BackColor = Color.Red;
-            }
+
+            return false;
+            
         }
 
-        private void EditAddressInfo(object sender, DataGridViewCellEventArgs e)
-        {
-            var id = 0;
-            var newValue = ShowAddressGridView[e.ColumnIndex, e.RowIndex].Value;
-            var columnName = ShowAddressGridView.Columns[e.ColumnIndex].HeaderText;
-            var contactId = ContactDataGridView[0, 0].Value;
+        #endregion
 
-            if (ShowAddressGridView[0, e.RowIndex].Value.ToString() == "")
-            {
-                id = InsertAddress();
-                ShowAddressGridView[0, e.RowIndex].Value = id;
-            }
-            else
-            {
-                id = (int)ShowAddressGridView[0, e.RowIndex].Value;
-            }
-
-
-            SqlParameter[] parameters = {
-                new SqlParameter("@Id", id),
-                new SqlParameter("@" + columnName, newValue)
-            };
-
-            var command = $"update Address " +
-                          $"set {columnName} = @{columnName} " +
-                          $"where Id = @Id";
-
-            UpdateData(command, parameters);
-        }
-
-        private void EditEmailInfo(object sender, DataGridViewCellEventArgs e)
-        {
-            var emailId = 0;
-
-            if (ShowEmailGridView[0, e.RowIndex].Value.ToString() == "")
-            {
-                emailId = InsertEmail();
-                ShowEmailGridView[0, e.RowIndex].Value = emailId;
-            }
-            else
-            {
-                emailId = (int)ShowEmailGridView[0, e.RowIndex].Value;
-            }
-
-            var newValue = ShowEmailGridView[e.ColumnIndex, e.RowIndex].Value;
-            var columnName = ShowEmailGridView.Columns[e.ColumnIndex].HeaderText;
-
-            SqlParameter[] parameters = {
-                new SqlParameter("@Id", emailId),
-                new SqlParameter("@" + columnName, newValue)
-            };
-
-            var command = $"update Email " +
-                          $"set {columnName} = @{columnName} " +
-                          $"where Id = @Id";
-
-            UpdateData(command, parameters);
-        }
+        #region Telephone
 
         private void EditTelephoneInfo(object sender, DataGridViewCellEventArgs e)
         {
@@ -279,6 +196,130 @@ namespace AddressBook
             UpdateData(command, parameters);
         }
 
+        private int InsertTelephone()
+        {
+            SqlParameter[] parameters = {
+                new SqlParameter("@Id", contactId)
+
+            };
+
+            var cmdInsert = "insert into Telephone (CountryCode, DiallingCode, TelephoneNumber, ContactId) " +
+                            "values ('*','*','*',@Id)";
+
+            UpdateData(cmdInsert, parameters);
+
+            var dataAccess = new DataAccess();
+
+            var cmd = "select top(1) Id from Telephone order by Id desc";
+
+            var contacts = dataAccess.ExecuteSelectCommand(cmd, CommandType.Text, null);
+
+            var id = contacts.Tables[0].Rows[0]["Id"].ToString();
+
+            return int.Parse(id);
+        }
+
+        #endregion
+
+        #region Email
+
+        private void EditEmailInfo(object sender, DataGridViewCellEventArgs e)
+        {
+            var emailId = 0;
+
+            if (ShowEmailGridView[0, e.RowIndex].Value.ToString() == "")
+            {
+                emailId = InsertEmail();
+                ShowEmailGridView[0, e.RowIndex].Value = emailId;
+            }
+            else
+            {
+                emailId = (int)ShowEmailGridView[0, e.RowIndex].Value;
+            }
+
+            var newValue = ShowEmailGridView[e.ColumnIndex, e.RowIndex].Value;
+            var columnName = ShowEmailGridView.Columns[e.ColumnIndex].HeaderText;
+
+            SqlParameter[] parameters = {
+                new SqlParameter("@Id", emailId),
+                new SqlParameter("@" + columnName, newValue)
+            };
+
+            var command = $"update Email " +
+                          $"set {columnName} = @{columnName} " +
+                          $"where Id = @Id";
+
+            UpdateData(command, parameters);
+        }
+
+        private int InsertEmail()
+        {
+            SqlParameter[] parameters = {
+                new SqlParameter("@Id", contactId)
+
+            };
+
+            var cmdInsert = "insert into Email (Email,ContactId) " +
+                            "values ('*', @Id)";
+
+            UpdateData(cmdInsert, parameters);
+
+            var dataAccess = new DataAccess();
+
+            var cmd = "select top(1) Id from Email order by Id desc";
+
+            var contacts = dataAccess.ExecuteSelectCommand(cmd, CommandType.Text, null);
+
+            var id = contacts.Tables[0].Rows[0]["Id"].ToString();
+
+            return int.Parse(id);
+        }
+
+
+        #endregion
+
+        #region Contact
+
+        private void EditAddressBook(object sender, DataGridViewCellEventArgs e)
+        {
+            var newValue = ContactDataGridView[e.ColumnIndex, e.RowIndex].Value;
+            var columnName = ContactDataGridView.Columns[e.ColumnIndex].HeaderText;
+            var id = ContactDataGridView[0, e.RowIndex].Value;
+
+            SqlParameter[] parameters = {
+                new SqlParameter("@Id", id),
+                new SqlParameter("@" + columnName, newValue)
+            };
+
+            var command = $"update Contact " +
+                          $"set {columnName} = @{columnName} " +
+                          $"where Id = @Id";
+
+            UpdateData(command, parameters);
+        }
+
+
+        #endregion
+
+
+        private void UpdateData(string command, SqlParameter[] parameters)
+        {
+            var dataAccess = new DataAccess();
+            var result = dataAccess.ExecuteNonQuery(command, CommandType.Text, parameters);
+
+            if (result)
+            {
+                ResultLabel.Text = "Update worked as planned!";
+                ResultLabel.BackColor = Color.Green;
+            }
+            else
+            {
+                ResultLabel.Text = "Doh! Update didn't work...";
+                ResultLabel.BackColor = Color.Red;
+            }
+        }
+
+        
         #endregion
 
         #region Clicks
