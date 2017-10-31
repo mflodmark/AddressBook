@@ -16,6 +16,7 @@ namespace AddressBook
     public partial class AddressBook : Form
     {
         private int contactId;
+        private string addressLink;
 
         public AddressBook()
         {
@@ -31,14 +32,14 @@ namespace AddressBook
             SearchContactType.Items.Add("Personlig");
             SearchContactType.Items.Add("Jobb");
             SearchContactType.Items.Add("Övrig");
-            SearchContactType.Items.Add("Blankt");
         }
 
         #region LoadContactInfo
 
         public void LoadAddressBook()
         {
-            var table = LoadData("select Id, Name from Contact;", -1);
+            var table = LoadData("select c.Id, c.Name, ct.Type from Contact c " +
+                                 "inner join ContactType ct on ct.Id = c.ContactTypeId;", -1);
 
             ContactDataGridView.DataSource = table.Tables[0];
         }
@@ -91,76 +92,110 @@ namespace AddressBook
 
         #region Address
 
-        private void EditAddressInfo(object sender, DataGridViewCellEventArgs e)
+        
+        private void AmendAddress(object sender, DataGridViewCellEventArgs e)
         {
-            var id = 0;
-            var newValue = ShowAddressGridView[e.ColumnIndex, e.RowIndex].Value;
-            var columnName = ShowAddressGridView.Columns[e.ColumnIndex].HeaderText;
+            AmendCityTxtBox.Text = ShowAddressGridView["City", e.RowIndex].Value.ToString();
+            AmendStreetTxtBox.Text = ShowAddressGridView["Street", e.RowIndex].Value.ToString();
+            AmendZipCodeTxtBox.Text = ShowAddressGridView["ZipCode", e.RowIndex].Value.ToString();
 
-            if (ShowAddressGridView[0, e.RowIndex].Value.ToString() == "")
-            {
-                id = InsertAddress();
-                ShowAddressGridView[0, e.RowIndex].Value = id;
-            }
-            else
-            {
-                id = (int)ShowAddressGridView[0, e.RowIndex].Value;
-            }
-            
-
-                SqlParameter[] parameters = {
-                    new SqlParameter("@Id", id),
-                    new SqlParameter("@" + columnName, newValue)
-                };
-
-                var command = $"update Address " +
-                              $"set {columnName} = @{columnName} " +
-                              $"where Id = @Id";
-
-                UpdateData(command, parameters);
-            
+            addressLink = AmendStreetTxtBox.Text + AmendCityTxtBox.Text + AmendZipCodeTxtBox.Text;
         }
 
-        private int InsertAddress()
+        private void AddAddressBtn_Click(object sender, EventArgs e)
         {
-            var cmdInsert = "insert into address (Street, City, ZipCode) " +
-                            "values ('*','*','*')";
+            var dataAccess = new DataAccess();
+            
+            var address = new Address()
+            {
+                Street = AmendStreetTxtBox.Text,
+                City = AmendCityTxtBox.Text,
+                ZipCode = AmendZipCodeTxtBox.Text
+            };
 
-            UpdateData(cmdInsert, null);
 
+            SqlParameter[] parameters = {
+                new SqlParameter("@Street", address.Street),
+                new SqlParameter("@City", address.City),
+                new SqlParameter("@ZipCode", address.ZipCode)
+            };
+
+            var cmdText = "Declare @ExistingId int; " +
+                            "Select @ExistingId = Id from Address " +
+                            "where Street + City + ZipCode = @Street + @City + @ZipCode; " +
+                            "If (@ExistingId is null) " +
+                            "Begin " +
+                            "insert into Address (Street, City, ZipCode) " +
+                            "values (@Street, @City, @ZipCode) " +
+                            "End";
+
+            dataAccess.ExecuteNonQuery(cmdText, CommandType.Text, parameters);
+
+            var cmd = "Select Id from Address " +
+                        "where Street + City + ZipCode = @Address ";
+
+            SqlParameter[] parameters2 = {
+                new SqlParameter("@Address", address.Street + address.City + address.ZipCode),
+            };
+
+            var contacts = dataAccess.ExecuteSelectCommand(cmd, CommandType.Text, parameters2);
+
+            var idFromAddress = contacts.Tables[0].Rows[0]["Id"].ToString();
+
+            var addContactAddress = "insert into Contact_Address (ContactId, AddressId) " +
+                                    $"values ({contactId}, {idFromAddress}) ";
+
+            dataAccess.ExecuteNonQuery(addContactAddress, CommandType.Text, null);
+            
+            LoadAddressInfo(contactId);
+
+            AmendZipCodeTxtBox.Text = "";
+            AmendCityTxtBox.Text = "";
+            AmendStreetTxtBox.Text = "";
+        }
+
+        private void amendAddressBtn_Click(object sender, EventArgs e)
+        {
             var dataAccess = new DataAccess();
 
-            var cmd = "select top(1) Id from Address order by Id desc";
+            var address = new Address()
+            {
+                Street = AmendStreetTxtBox.Text,
+                City = AmendCityTxtBox.Text,
+                ZipCode = AmendZipCodeTxtBox.Text
+            };
+
+            var cmd = "Select Id from Address " +
+                      $"where Street + City + ZipCode = '{addressLink}'; ";
 
             var contacts = dataAccess.ExecuteSelectCommand(cmd, CommandType.Text, null);
 
-            var id = contacts.Tables[0].Rows[0]["Id"].ToString();
+            var idFromAddress = contacts.Tables[0].Rows[0]["Id"].ToString();
 
-            var addContactAddress = "insert into Contact_Address (ContactId, AddressId) " +
-                                    $"values ({contactId}, {id}) ";
 
-            dataAccess.ExecuteNonQuery(addContactAddress, CommandType.Text, null);
+            SqlParameter[] parameters = {
+                new SqlParameter("@Street", address.Street),
+                new SqlParameter("@City", address.City),
+                new SqlParameter("@ZipCode", address.ZipCode)
+            };
 
-            return int.Parse(id);
-        }
+            var cmdText = "Declare @ExistingId int; " +
+                          "Select @ExistingId = Id from Address " +
+                          "where Street + City + ZipCode = @Street + @City + @ZipCode; " +
+                          "If (@ExistingId is null) " +
+                          "Begin " +
+                          "update Address " +
+                          "set Street = @Street, City = @City, ZipCode = @ZipCode " +
+                          $"where Id = {idFromAddress} " +
+                          "End";
 
-        private bool CheckIfAddressAlreadyExists(string address)
-        {
-            var dataAccess = new DataAccess();
+            dataAccess.ExecuteNonQuery(cmdText, CommandType.Text, parameters);
 
-            var cmdAddress = "select Street+City+ZipCode from Address";
+            LoadAddressInfo(contactId);
 
-            var contacts = dataAccess.ExecuteSelectCommand(cmdAddress, CommandType.Text, null);
-
-            var addressData = contacts.Tables[0].AsEnumerable().ToList();
-
-            foreach (var dataRow in addressData)
-            {
-                if (dataRow.ToString() == address) return true;
-            }
-
-            return false;
-            
+            AmendZipCodeTxtBox.Text = "";
+            AmendCityTxtBox.Text = "";
+            AmendStreetTxtBox.Text = "";
         }
 
         #endregion
@@ -469,7 +504,7 @@ namespace AddressBook
                 new SqlParameter("@ContactType", searchContactType)
             };
 
-            var cmdText = "select c.Id, c.Name from Contact c " +
+            var cmdText = "select c.Id, c.Name, ct.Type from Contact c " +
                           "left join Contact_Address ca on ca.ContactId = c.Id " +
                           "left join Address a on a.Id = ca.AddressId " +
                           "left join ContactType ct on ct.Id = c.ContactTypeId " +
@@ -514,14 +549,13 @@ namespace AddressBook
             ShowAddressGridView.Columns.Clear();
             ShowEmailGridView.Columns.Clear();
             ShowTelephoneGridView.Columns.Clear();
+            SearchContactType.SelectedItem = null;
         }
 
 
 
-
-
-
         #endregion
+
 
     }
 }

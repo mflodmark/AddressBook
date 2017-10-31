@@ -53,6 +53,11 @@
             this.DeleteAddressBtn = new System.Windows.Forms.Button();
             this.DeleteTelBtn = new System.Windows.Forms.Button();
             this.DeleteEmailBtn = new System.Windows.Forms.Button();
+            this.AmendStreetTxtBox = new System.Windows.Forms.TextBox();
+            this.AmendCityTxtBox = new System.Windows.Forms.TextBox();
+            this.AmendZipCodeTxtBox = new System.Windows.Forms.TextBox();
+            this.AddAddressBtn = new System.Windows.Forms.Button();
+            this.amendAddressBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ContactDataGridView)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ShowAddressGridView)).BeginInit();
@@ -92,7 +97,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1180, 33);
+            this.menuStrip1.Size = new System.Drawing.Size(1403, 33);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -196,16 +201,17 @@
             // 
             // ShowAddressGridView
             // 
+            this.ShowAddressGridView.AllowUserToAddRows = false;
             this.ShowAddressGridView.AllowUserToDeleteRows = false;
             this.ShowAddressGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.ShowAddressGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ShowAddressGridView.Location = new System.Drawing.Point(519, 173);
             this.ShowAddressGridView.Name = "ShowAddressGridView";
+            this.ShowAddressGridView.ReadOnly = true;
             this.ShowAddressGridView.RowTemplate.Height = 28;
             this.ShowAddressGridView.Size = new System.Drawing.Size(618, 181);
             this.ShowAddressGridView.TabIndex = 23;
-            this.ShowAddressGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ClearResultLabel);
-            this.ShowAddressGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.EditAddressInfo);
+            this.ShowAddressGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.AmendAddress);
             // 
             // ShowTelephoneGridView
             // 
@@ -313,11 +319,57 @@
             this.DeleteEmailBtn.UseVisualStyleBackColor = false;
             this.DeleteEmailBtn.Click += new System.EventHandler(this.DeleteEmailBtn_Click);
             // 
+            // AmendStreetTxtBox
+            // 
+            this.AmendStreetTxtBox.Location = new System.Drawing.Point(1159, 173);
+            this.AmendStreetTxtBox.Name = "AmendStreetTxtBox";
+            this.AmendStreetTxtBox.Size = new System.Drawing.Size(170, 26);
+            this.AmendStreetTxtBox.TabIndex = 34;
+            // 
+            // AmendCityTxtBox
+            // 
+            this.AmendCityTxtBox.Location = new System.Drawing.Point(1159, 214);
+            this.AmendCityTxtBox.Name = "AmendCityTxtBox";
+            this.AmendCityTxtBox.Size = new System.Drawing.Size(170, 26);
+            this.AmendCityTxtBox.TabIndex = 35;
+            // 
+            // AmendZipCodeTxtBox
+            // 
+            this.AmendZipCodeTxtBox.Location = new System.Drawing.Point(1159, 262);
+            this.AmendZipCodeTxtBox.Name = "AmendZipCodeTxtBox";
+            this.AmendZipCodeTxtBox.Size = new System.Drawing.Size(170, 26);
+            this.AmendZipCodeTxtBox.TabIndex = 36;
+            // 
+            // AddAddressBtn
+            // 
+            this.AddAddressBtn.Location = new System.Drawing.Point(1159, 310);
+            this.AddAddressBtn.Name = "AddAddressBtn";
+            this.AddAddressBtn.Size = new System.Drawing.Size(170, 35);
+            this.AddAddressBtn.TabIndex = 37;
+            this.AddAddressBtn.Text = "Add";
+            this.AddAddressBtn.UseVisualStyleBackColor = true;
+            this.AddAddressBtn.Click += new System.EventHandler(this.AddAddressBtn_Click);
+            // 
+            // amendAddressBtn
+            // 
+            this.amendAddressBtn.Location = new System.Drawing.Point(1159, 363);
+            this.amendAddressBtn.Name = "amendAddressBtn";
+            this.amendAddressBtn.Size = new System.Drawing.Size(170, 35);
+            this.amendAddressBtn.TabIndex = 38;
+            this.amendAddressBtn.Text = "Amend";
+            this.amendAddressBtn.UseVisualStyleBackColor = true;
+            this.amendAddressBtn.Click += new System.EventHandler(this.amendAddressBtn_Click);
+            // 
             // AddressBook
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1180, 646);
+            this.ClientSize = new System.Drawing.Size(1403, 596);
+            this.Controls.Add(this.amendAddressBtn);
+            this.Controls.Add(this.AddAddressBtn);
+            this.Controls.Add(this.AmendZipCodeTxtBox);
+            this.Controls.Add(this.AmendCityTxtBox);
+            this.Controls.Add(this.AmendStreetTxtBox);
             this.Controls.Add(this.DeleteEmailBtn);
             this.Controls.Add(this.DeleteTelBtn);
             this.Controls.Add(this.DeleteAddressBtn);
@@ -381,6 +433,11 @@
         private System.Windows.Forms.Button DeleteAddressBtn;
         private System.Windows.Forms.Button DeleteTelBtn;
         private System.Windows.Forms.Button DeleteEmailBtn;
+        private System.Windows.Forms.TextBox AmendStreetTxtBox;
+        private System.Windows.Forms.TextBox AmendCityTxtBox;
+        private System.Windows.Forms.TextBox AmendZipCodeTxtBox;
+        private System.Windows.Forms.Button AddAddressBtn;
+        private System.Windows.Forms.Button amendAddressBtn;
     }
 }
 
